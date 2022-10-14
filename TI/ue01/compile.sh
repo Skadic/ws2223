@@ -3,6 +3,7 @@ cd rs
 cargo build --release
 cd ..
 cp rs/target/release/rs bin 
+strip bin/rs
 
 
 cd cpp
