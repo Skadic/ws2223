@@ -43,13 +43,11 @@ fn main() -> std::io::Result<()> {
     let sort_duration = Instant::now() - now;
 
 
-    println!("Trie insert: {}μs", trie_insert_duration.as_micros());
-    println!("Trie sort: {}μs", trie_sort_duration.as_micros());
-    println!("Trie total: {}μs", trie_insert_duration.as_micros() + trie_sort_duration.as_micros());
-    println!("Unstable sort : {}μs", unstable_sort_duration.as_micros());
-    println!("Stable sort : {}μs", sort_duration.as_micros());
-
-    //trie.print_all_strings();
+    println!("Trie insert: {}ms", trie_insert_duration.as_millis());
+    println!("Trie sort: {}ms", trie_sort_duration.as_millis());
+    println!("Trie total: {}ms", trie_insert_duration.as_millis() + trie_sort_duration.as_millis());
+    println!("Unstable sort : {}ms", unstable_sort_duration.as_millis());
+    println!("Stable sort : {}ms", sort_duration.as_millis());
 
     Ok(())
 }

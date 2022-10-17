@@ -31,17 +31,17 @@ int main(int argc, char* argv[]) {
     {
         auto now = steady_clock::now();
         std::sort(content.begin(), content.end()); 
-        std::chrono::duration<double, std::micro> sort_time = steady_clock::now() - now;
+        std::chrono::duration<double, std::milli> sort_time = steady_clock::now() - now;
 
-        std::cout << "GNU Sort: " << sort_time.count() << "μs" << std::endl;
+        std::cout << "GNU Sort: " << sort_time.count() << "ms" << std::endl;
     }
 
     {
         auto now = steady_clock::now();
         std::stable_sort(content2.begin(), content2.end()); 
-        std::chrono::duration<double, std::micro> sort_time = steady_clock::now() - now;
+        std::chrono::duration<double, std::milli> sort_time = steady_clock::now() - now;
 
-        std::cout << "GNU Stable Sort: " << sort_time.count() << "μs" << std::endl;
+        std::cout << "GNU Stable Sort: " << sort_time.count() << "ms" << std::endl;
     }
     return 0;
 }
