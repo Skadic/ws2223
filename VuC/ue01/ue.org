@@ -1,0 +1,234 @@
+* Reguläre Ausdrücke
+Finden Sie reguläre Ausdrücke für folgende Sprachen:
+
+** 1)
+Zeichenreihen über dem Alphabet ~{a, b, c}~
+\[(a(b|c)^*a(b|c)^*)^*\]
+
+** 2)
+Binärzahlen ohne führende Nullen, die durch 4 teilbar sind.
+\[
+    (10^*)^*100
+\]
+
+** 3)
+Binärzahlen, die größer als 41 sind.
+\[
+    (10^*)^+(0|1)^5\ |\
+    (1|0)^*101(001|010|011|\dots 111)\ |\
+    1^*0^*1(10|11)(0|1)^3
+\]
+
+** 4)
+Zeichenreihen über dem Alphabet ~{a, b, c},~ die nicht die Zeilzeichenreihe ~baa~ enthalten.
+\[
+    \left((a|c)^*\left(b(a(b|c)|c)\right)^*\right)^* b?a?
+\]
+
+* Scanning
+
+** 1)
+Geben Sie einen DFA an, der folgende Sprache erkennt: \[ a^* b (ca^*b)^* d^+ e\]
+
+   #+begin_src dot :file 02_01.png
+    digraph {
+        // graph from left to right
+        rankdir=LR;
+        splines=true;
+        node [shape=circle, fontcolor=black];
+
+        invis [label="", shape=none]
+        0 [label="s0"]
+        1 [label="s1"]
+        2 [label="s2"]
+        3 [label="s3", shape=doublecircle]
+
+        invis -> 0
+        0 -> 0 [label="a"]
+        0 -> 1 [label="b"]
+        1 -> 0 [label="c"]
+        1 -> 2 [label="d"]
+        2 -> 2 [label="d"]
+        2 -> 3 [label="e"]
+    }
+   #+end_src
+
+   #+RESULTS:
+   [[file:02_01.png]]
+
+** 2)
+Geben Sie einen regulären Ausdruck an, der folgende Sprache
+/Ein Unterstrich oder einer oder mehrere Buchstaben, gefolgt von einer oder keiner/
+
+\[ (\_\ |\ letter^+)\ digit? \]
+
+** 3)
+Konstruieren Sie aus dem regulären Ausdruck aus Teilaufgabe *2)* einen äquivalenten NFA, wie in der Vorlesung gezeigt.
+
+   #+begin_src dot :file 02_03.png
+    digraph {
+        // graph from left to right
+        rankdir=LR;
+        splines=true;
+        node [shape=circle, fontcolor=black];
+
+        invis [label="", shape=none]
+        0 [label="s0"]
+        1 [label="s1"]
+        2 [label="s2"]
+        3 [label="s3"]
+        4 [label="s4"]
+        5 [label="s5"]
+        6 [label="s6"]
+        7 [label="s7"]
+        8 [label="s8"]
+        9 [label="s9"]
+        10 [label="s10"]
+        11 [label="s11"]
+        12 [label="s12"]
+        13 [label="s13", shape=doublecircle]
+
+        invis -> 0
+        // _
+        0 -> 1 [label=<&epsilon;>]
+        1 -> 2 [label="_"]
+        2 -> 8 [label=<&epsilon;>]
+
+        //letter+
+        0 -> 3 [label=<&epsilon;>]
+        3 -> 4 [label="letter"]
+        4 -> 5 [label=<&epsilon;>]
+        5 -> 6 [label="letter"]
+        6 -> 4 [label=<&epsilon;>]
+        6 -> 7 [label=<&epsilon;>]
+        4 -> 7 [label=<&epsilon;>]
+        7 -> 8 [label=<&epsilon;>]
+
+        // digit?
+        8 -> 9 [label=<&epsilon;>]
+        9 -> 10 [label="digit"]
+        10 -> 13 [label=<&epsilon;>]
+
+        8 -> 11 [label=<&epsilon;>]
+        11 -> 12 [label=<&epsilon;>]
+        12 -> 13 [label=<&epsilon;>]
+    }
+   #+end_src
+
+   #+RESULTS:
+   [[file:02_03.png]]
+
+** 4)
+Konstruieren Sie aus dem NFA aus Teilaufgabe 3 einen äquivalenten DFA. Beschreiben Sie ihr Vorgehen.
+
+*Potenzmengenkonstruktion*: Beginne bei $s_0$ und füge seine $\varepsilon$ Hülle als Startzustand $s'$ ein. Dann für jede bisher erstellte Zustandsmenge \[s_i'\], füge für jedes Zeichen $c \in \Sigma$ im Alphabet die Vereinigung der $\varepsilon$ Hüllen der Transitionen aller $s \in s_i'$ als neuen Zustand ein (falls diese noch nicht existiert). Also:
+
+\begin{equation*}
+s_i' \rightarrow^c s_j' \Leftrightarrow s_j' = \bigcup_{s \in s_i'} \left\{s_n\ |\ s (\rightarrow^c) (\rightarrow^\varepsilon)^* s_n\right\}
+\end{equation*}
+
+Zustände:
+
+\begin{align*}
+    s' &= \{s_0, s_1, s_3\}, &s_1' &= \{s_9, s_{13}\}\\
+    s_2' &= \{s_5, s_9, s_{13}\}, &s_3' &= \{s_{13}\}\\
+\end{align*}
+
+Graph:
+
+#+begin_src dot :file 02_04.png
+    digraph {
+        // graph from left to right
+        rankdir=LR;
+        splines=true;
+        node [shape=circle, fontcolor=black];
+
+        invis [label="", shape=none]
+        0 [label="s"]
+        1 [label="s1'", shape=doublecircle]
+        2 [label="s2'", shape=doublecircle]
+        3 [label="s3'", shape=doublecircle]
+
+        invis -> 0
+        0 -> 1 [label="_"]
+        0 -> 2 [label="letter"]
+        2 -> 2 [label="letter"]
+        1 -> 3 [label="digit"]
+        2 -> 3 [label="digit"]
+    }
+#+end_src
+
+#+RESULTS:
+[[file:02_04.png]]
+
+** 5)
+*** a)
+Der folgende NFA erkennt neben dem reservierten Wort ~if~ alle Bezeichner, die über dem Alphabet $\{i, f\}$ gebildet werden können und auf ein $ enden. Er ist durch seine Transitionen gegeben, wobei $p, q, r, s$ die Zustände, $s$ der Anfangszustand und $q$ der einzige akzeptierende Zustand ist.
+
+Transitionen:
+
+\begin{align*}
+\delta(s, i) &= \{p, r\}, &\delta(s,f) &= \{r\}, &\delta(r, i) &= \{r\}\\
+\delta(r, f) &= \{r\}, &\delta(p, f) &= \{q\}, &\delta(r, \$) &= \{q\}\\
+\delta(z, a) &= \emptyset \text{ für alle anderen } (z,a) \in S \times \Sigma
+\end{align*}
+
+Graph:
+#+begin_src dot :file 02_05.png
+digraph {
+    // graph from left to right
+    rankdir=LR;
+    splines=true;
+    node [shape=circle, fontcolor=black];
+
+    invis [label="", shape=none]
+    s [label="s"]
+    p [label="p"]
+    q [label="q", shape=doublecircle]
+    r [label="r"]
+
+    s -> p [label="i"]
+    s -> r [label="i, f"]
+    r -> r [label="i, f"]
+    p -> q [label="f"]
+    r -> q [label="$"]
+}
+#+end_src
+
+#+RESULTS:
+[[file:02_05.png]]
+
+*** b)
+Zustände:
+\begin{align*}
+s' &= \{s\}, &s_1' &= \{p, r\}, s_2' &= \{r, q\}\\
+s_3' &= \{r\}, &s_4' &= \{q\}\\
+\end{align*}
+
+Graph:
+
+#+begin_src dot :file 02_05_b.png
+digraph {
+    // graph from left to right
+    rankdir=LR;
+    splines=true;
+    node [shape=circle, fontcolor=black];
+
+    invis [shape=none, label=""]
+    0 [label="s'"]
+    1 [label="s1'"]
+    2 [label="s2'", shape=doublecircle]
+    3 [label="s3'"]
+    4 [label="s4'", shape=doublecircle]
+
+    0 -> 1 [label="i"]
+    1 -> 2 [label="f"]
+    2 -> 3 [label="i, f"]
+    0 -> 3 [label="f"]
+    3 -> 3 [label="i, f"]
+    3 -> 4 [label="$"]
+}
+#+end_src
+
+#+RESULTS:
+[[file:02_05_b.png]]
