@@ -3,26 +3,26 @@ Finden Sie reguläre Ausdrücke für folgende Sprachen:
 
 ** 1)
 Zeichenreihen über dem Alphabet ~{a, b, c}~
-\[(a(b|c)^*a(b|c)^*)^*\]
+\[(b|c)^*(a(b|c)^*a(b|c)^*)^*\]
 
 ** 2)
 Binärzahlen ohne führende Nullen, die durch 4 teilbar sind.
 \[
-    (10^*)^*100
+    (10^*)^+00\ |\ 0
 \]
 
 ** 3)
 Binärzahlen, die größer als 41 sind.
 \[
-    (10^*)^+(0|1)^5\ |\
-    (1|0)^*101(001|010|011|\dots 111)\ |\
-    1^*0^*1(10|11)(0|1)^3
+    (10^*)^+(0|1)^6\ |\
+    (10^*)^*101(001|010|011|\dots 111)\ |\
+    (10^*)^*1(10|11)(0|1)^3
 \]
 
 ** 4)
 Zeichenreihen über dem Alphabet ~{a, b, c},~ die nicht die Zeilzeichenreihe ~baa~ enthalten.
 \[
-    \left((a|c)^*\left(b(a(b|c)|c)\right)^*\right)^* b?a?
+    \left((a|c)^*\left((ba?)^+c\right)^*\right)^* (ba?)^*
 \]
 
 * Scanning
@@ -121,7 +121,7 @@ Konstruieren Sie aus dem regulären Ausdruck aus Teilaufgabe *2)* einen äquival
 ** 4)
 Konstruieren Sie aus dem NFA aus Teilaufgabe 3 einen äquivalenten DFA. Beschreiben Sie ihr Vorgehen.
 
-*Potenzmengenkonstruktion*: Beginne bei $s_0$ und füge seine $\varepsilon$ Hülle als Startzustand $s'$ ein. Dann für jede bisher erstellte Zustandsmenge \[s_i'\], füge für jedes Zeichen $c \in \Sigma$ im Alphabet die Vereinigung der $\varepsilon$ Hüllen der Transitionen aller $s \in s_i'$ als neuen Zustand ein (falls diese noch nicht existiert). Also:
+*Potenzmengenkonstruktion*: Beginne bei $s_0$ und füge seine $\varepsilon$ Hülle als Startzustand $s'$ ein. Dann für jede bisher erstellte Zustandsmenge $s_i'$, füge für jedes Zeichen $c \in \Sigma$ im Alphabet die Vereinigung der $\varepsilon$ Hüllen der Transitionen aller $s \in s_i'$ als neuen Zustand ein (falls diese noch nicht existiert). Also:
 
 \begin{equation*}
 s_i' \rightarrow^c s_j' \Leftrightarrow s_j' = \bigcup_{s \in s_i'} \left\{s_n\ |\ s (\rightarrow^c) (\rightarrow^\varepsilon)^* s_n\right\}
@@ -201,7 +201,7 @@ digraph {
 *** b)
 Zustände:
 \begin{align*}
-s' &= \{s\}, &s_1' &= \{p, r\}, s_2' &= \{r, q\}\\
+s' &= \{s\}, &s_1' &= \{p, r\}, &s_2' &= \{r, q\}\\
 s_3' &= \{r\}, &s_4' &= \{q\}\\
 \end{align*}
 
