@@ -32,8 +32,24 @@ bool Plane::intersect(const Ray& ray, vec3& intersection_point,
  * - return whether there is an intersection for t>1e-5 (avoids "shadow acne").
 */
 
+    if (std::abs(dot(ray.direction_, normal_)) < 1e-6) {
+      return false;
+    }
 
-    return false;
+   const double plane_dist_from_origin = dot(normal_, center_); 
+
+    // dot(n, o + t * dir) - d = 0
+    // dot(n, o + t * dir) = d
+    // dot(n, o) + t * dot(n, dir) = d
+    // t = (d - dot(n, o)) / dot(n, dir) 
+    
+    const double t = (plane_dist_from_origin - dot(normal_, ray.origin_)) / dot(normal_, ray.direction_);
+
+    intersection_point = ray(t);
+    intersection_normal = normal_;
+    intersection_distance = norm(ray.origin_ - intersection_point);
+
+    return t >= 1e-5;
 }
 
 //=============================================================================
