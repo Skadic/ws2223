@@ -19,6 +19,7 @@
 #include <sstream>
 #include <string>
 #include "utils/vec3.h"
+#include "Plane.h"
 
 //== MATRIX TYPE ===========================================================
 
@@ -393,6 +394,31 @@ bool Mesh::intersect_bounding_box(const Ray &ray) const {
      * in `Mesh::compute_bounding_box()`.
      */
 
+
+    double tmin = 0.0, tmax = DBL_MAX;
+    for (size_t i = 0; i < 3; i++) {
+        if (fabs(ray.direction_[i]) < 1e-5 && (bb_min_[i] > ray.origin_[i] || ray.origin_[i] > bb_max_[i])) {
+            return false;
+        }
+        
+        double t0, t1;
+        // Consider direction of ray
+        if (ray.direction_[i] > 0) {
+            t0 = (bb_min_[i] - ray.origin_[i]) / ray.direction_[i];
+            t1 = (bb_max_[i] - ray.origin_[i]) / ray.direction_[i];
+        } else {
+            t1 = (bb_min_[i] - ray.origin_[i]) / ray.direction_[i];
+            t0 = (bb_max_[i] - ray.origin_[i]) / ray.direction_[i];
+        }
+
+        tmin = std::max(tmin, t0);
+        tmax = std::min(tmax, t1);
+
+        if (tmin > tmax) {
+            return false;
+        }
+    }
+    
     return true;
 }
 
@@ -403,6 +429,7 @@ bool Mesh::intersect(const Ray &ray,
                      vec3      &intersection_normal,
                      vec3      &intersection_diffuse,
                      double    &intersection_distance) const {
+
     // check bounding box intersection
     if (!intersect_bounding_box(ray)) {
         return false;
