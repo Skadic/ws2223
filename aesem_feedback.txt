@@ -1,0 +1,4 @@
+themenüberschneidungen nicht zu schlimm
+euklidisches problem person hat sich nicht gemeldet
+darf aufgreifen dass definition des problems generell ist, aber in literatur nur euklidisches behandelt wird
+"graph vervollständigung mit infinity kanten => s algo geht nicht" ins paper aufnehmen
