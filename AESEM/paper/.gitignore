@@ -1,0 +1,13 @@
+main.pdf
+nohup.out
+*.aux
+*.fdb*
+*.fls
+*.log
+*.synctex.gz
+*.bcf
+*.out
+*.run.xml
+*.toc
+*.bbl
+*.blg
