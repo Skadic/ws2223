@@ -1,0 +1,66 @@
+\subsection{Deterministic Algorithm}
+\label{subsec:03:dalgo}
+
+The second algorithm presented is the \emph{Deterministic Algorithm} (D-Algorithm).
+This will only be briefly outlined for reasons explained later.
+
+\begin{wrapfigure}{l}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}[pienode/.style 2 args={ circle, minimum size=#1, inner sep=0pt, path picture={\fill[red!30] (path picture
+    bounding box.center) -- ++(0:#1) arc[start angle=0, end angle=3.6*#2,
+    radius=#1] --cycle;}}]
+        \node[pienode={4cm}{60}] (a) {};
+        \node[circle,fill=white,minimum size=2cm] {};
+
+        \node[draw,shape=circle,minimum width=4cm] at (0,0) (a) {};
+        \node[draw,shape=circle,minimum width=2cm] at (0,0) (a) {};
+
+        \draw (0,0) -- (0:2);
+        \draw (0,0) -- (216:2);
+        \draw[black!40] (0.3,0) arc[start angle=0, end angle=216, radius=3mm];
+
+        \draw[-Circle] (170:1.2) -- (200:1.9);
+        \draw[Circle-] (170:1.2) -- (160:1.7);
+        \draw[-Circle] (160:1.7) -- (130:1.1);
+        \draw[Circle-] (100:1.8) -- (130:1.1);
+        \draw[-Circle] (100:1.8) -- (70:1.3);
+        \draw[Circle-] (50:1.5) -- (70:1.3);
+        \draw[-Circle] (50:1.5) -- (10:1.8);
+    \end{tikzpicture}
+    \caption{An example of the D-Algorithm creating a path restricted to a section.}
+    \label{fig:03:dalgoexample}
+\end{wrapfigure}
+
+The D-Algorithm is inspired by \citeauthor{wren_computer_1972} and their algorithm for vehicle routing \cite{wren_computer_1972}.
+Space is divided into different sections each given using concentric circles with different radii and an arc each.
+An example of this is depicted in \cref{fig:03:dalgoexample}.
+In \citeauthor{tsiligiridis_heuristic_1984} case, twelve different radii and arcs of $90\degree$ are used.
+So space is divided into four quadrants, each being divided into $13$ segments.
+
+A route is successively created for each sector, each route only using nodes that are in the respective sector.
+This is done to reduce the travel distance from node to node.
+In each sector, nodes are added until either no other node can be added due to violating $T_{max}$ or if all nodes of this sector have already been visited.
+
+\subsubsection{Adapting for non-Euclidean Inputs}
+
+As said before, this algorithm is only briefly explained.
+The reason for this is that this algorithm cannot be easily generalized to non-Euclidean inputs.
+This algorithm divides \emph{space} into sectors 
+and using this terminology already hints at the fact that we need to measure and quantify \emph{space}, for example by using a metric.
+And this leads us back to a Euclidean input.
+
+Of course, the Euclidean metric is by far not the only one in existence.
+One could possibly construct a similar division of the space by using a different metric, if a replacement for the concept of arcs and angles can be formulated.
+
+Though, even under that assumption, this would shift the original problem to requiring another metric instead of the Euclidean one, 
+in addition to finding adaptations and replacements for aspects of the algorithm that do not work when not using the Euclidean metric.
+In addition, especially for real-world applications the Euclidean metric is by far the most prevalent and useful (see \cref{subsec:02:reasons}).
+So not only would we be replacing the one problem with another, we would most likely be requiring an even rarer input due to requiring a more niche metric.
+Needless to say, this would not be a generalization of this algorithm.
+
+If not using a metric at all, one would need to partition the graph without the ability to use this metric. 
+One would need to do away with the idea of sectioning space into sectors and instead divide the graph in another way.
+This could perhaps be done using algorithms that allow dividing the graph into clusters, like Girvan and Newman's algorithm \cite{girvan_community_2002} which tries to identify edges connecting \emph{tightly-knit groups} and isolating those groups.
+Though one would have to evaluate the quality of the solution with experiments.
+
+In summary, there seems to be no trivial generalization of this algorithm to less restricted inputs.
