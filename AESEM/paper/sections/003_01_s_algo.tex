@@ -73,7 +73,7 @@ Elements that are currently part of the path are colored red.
 There are other elements in these equations in the original paper not covered here.
 However, as noted by \citeauthor{tsiligiridis_heuristic_1984}, these other values did not contribute to the quality of the solution in his evaluations, so they are omitted here. 
 
-\subsubsection{Adapting for non-Euclidean inputs}
+\subsubsection{Generalizing to non-Euclidean inputs}
 
 The inputs in \citeauthor{tsiligiridis_heuristic_1984}' paper are Euclidean, and his descriptions are formulated in respect to a Euclidean input.
 However, the algorithm does not explicitly require the graph to have any particular properties except for every node to be directly connected to the end node $v_n$.
@@ -111,8 +111,11 @@ The reason for this is that the algorithm considers a node $v_i$ to be available
     \label{fig:03:salgofailexample}
 \end{wrapfigure}
 
+\phantomsection
+\label{par:03:salgotriangle}
+\paragraph{Triangle Inequality} 
 As explained in \cref{subsec:02:triangle}, for this heuristic to work, the graph should satisfy the triangle inequality.
-Otherwise, it would not be possible to decide whether a constraint-respecting path can be found when including this vertex; at least not in the way this algorithm does it.
+Otherwise, it would not be possible to decide whether a constraint-respecting path can be found when including a specific vertex; at least not in the way this algorithm does it.
 If the graph does not satisfy the inequality, this might lead the algorithm to miss pursuing paths that might be profitable,
 or might even lead to the algorithm not being able to find a path even in very small graphs. 
 
@@ -123,6 +126,7 @@ In addition, since the edge between the start and end node has a weight of $5$, 
 As a result, the algorithm will not consider any nodes to be available and output that no path was found.
 This result is obviously incorrect.
 
+\paragraph{Inserting $\infty$ Edges} 
 As alluded to before in \cref{subsec:02:complete}, one can make a graph complete by inserting missing edges with a weight of $\infty$.
 This however, would violate the triangle inequality.
 The algorithm would also ignore \emph{all} nodes $v_i$ with an $\infty$-edge to the end node $v_n$, since the edge $\{v_i, v_n\}$ could never be traversed, unless $T_{max} = \infty$.

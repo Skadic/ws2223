@@ -1,0 +1,27 @@
+\subsection{Generalizing to non-Euclidean Inputs}
+
+This algorithm can be adapted to work on non-Euclidean inputs, however some heuristics used do not work outside of a Euclidean or similarly restrictive (see \cref{par:03:dalgogeneralizemetrics}) input.
+
+\paragraph{Center of Gravity}
+In \cref{par:04:choosemodified} we used a center of gravity heuristic for $Rc_i$ that associated a point in space with the highest expected score,
+by computing a weighted average of the nodes' coordinates weighted by their score.
+This of course requires the points to have coordinates, so this would require the nodes to be situated in a coordinate space like the Euclidean space.
+An option is to simple drop this heuristic and modify $W_i$ to say
+\begin{align*}
+  W_i &= 0.8 \cdot Rs_i + 0.2 \cdot Rp_i
+\end{align*}
+This would only require the graph to be complete, since we need to calculate the distance between the currently visted node and every other unvisited node for $Rp_i$.
+
+\paragraph{2-opt}
+In \cref{subsubsec:04:createharmony} we use the 2-opt method \cite{croes_method_1958} to optimize the path in step 1 and 4 respectively.
+In a non-Euclidean input it might be difficult to formulate a concept that would constitute as two edges \enquote{crossing}.
+As such, the path improvement can be reduced to consist only of step 2 and 3.
+These should work on any graph since they do not make assumptions about the graph's properties.
+
+\paragraph{Navigation}
+Similarly to the S-Algorithm (see \cref{subsec:03:salgo}) the Szwarcz-Boryczka algorithm navigates through the graph by adding new nodes until only the end node is available.
+With the same argumentation as in \cref{par:03:salgotriangle} it can be said that the Szwarcz-Boryczka algorithm likely will deliver worse results on a graph that does not satisfy the triangle equation.
+Since navigation is a crucial part of these algorithms, this would likely strongly impact the results.
+
+In summary, the algorithm should deliver decent results on graphs that satisfy the triangle equation. 
+However to what extent this impacts the results remains to be tested empirically.

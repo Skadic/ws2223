@@ -41,14 +41,20 @@ A route is successively created for each sector, each route only using nodes tha
 This is done to reduce the travel distance from node to node.
 In each sector, nodes are added until either no other node can be added due to violating $T_{max}$ or if all nodes of this sector have already been visited.
 
-\subsubsection{Adapting for non-Euclidean Inputs}
+\subsubsection{Generalizing to non-Euclidean Inputs}
+\label{subsubsec:03:dalgogeneralize}
 
-As said before, this algorithm is only briefly explained.
+As mentioned before, this algorithm is only briefly explained.
 The reason for this is that this algorithm cannot be easily generalized to non-Euclidean inputs.
+
+\paragraph{Space}
 This algorithm divides \emph{space} into sectors 
 and using this terminology already hints at the fact that we need to measure and quantify \emph{space}, for example by using a metric.
 And this leads us back to a Euclidean input.
 
+\phantomsection
+\label{par:03:dalgogeneralizemetrics}
+\paragraph{Other Metrics} 
 Of course, the Euclidean metric is by far not the only one in existence.
 One could possibly construct a similar division of the space by using a different metric, if a replacement for the concept of arcs and angles can be formulated.
 
@@ -58,6 +64,7 @@ In addition, especially for real-world applications the Euclidean metric is by f
 So not only would we be replacing the one problem with another, we would most likely be requiring an even rarer input due to requiring a more niche metric.
 Needless to say, this would not be a generalization of this algorithm.
 
+\paragraph{Not using any Metrics}
 If not using a metric at all, one would need to partition the graph without the ability to use this metric. 
 One would need to do away with the idea of sectioning space into sectors and instead divide the graph in another way.
 This could perhaps be done using algorithms that allow dividing the graph into clusters, like Girvan and Newman's algorithm \cite{girvan_community_2002} which tries to identify edges connecting \emph{tightly-knit groups} and isolating those groups.
