@@ -117,12 +117,12 @@ It should be noted that we prioritize \emph{lower} $W_i$.
 \paragraph{Choosing a random Node}
 
 As the title suggests, we choose a random node from the ones which do not violate $T_{max}$.
+After repeated choices no other node except the end node can be chosen, we complete the new harmony $P$ by inserting the end node.
 
-\subsubsection{Creating a new Harmony}
+\subsubsection{Improve Harmony}
 \label{subsubsec:04:createharmony}
 
-After repeated choices no other node except the end node can be chosen, we complete the new harmony $P$ by inserting the end node.
-Then we calculate its objective function value and check whether it is better than the worst harmony stored in $HM$.
+After calculating the path $P$ we calculate its objective function value and check whether it is better than the worst harmony stored in $HM$.
 If it is not better, the solution is discarded and a new iteration begins.
 If it \emph{is} better, we improve $P$ in four steps.
 
@@ -134,8 +134,8 @@ If it \emph{is} better, we improve $P$ in four steps.
     \begin{equation*}
       \frac{s(v_i)}{t(v_j, v_i) + t(v_i, v_k) - t(v_j, v_k)}
     \end{equation*}
-    Where $v_j, v_k \in P$ are the preceeding and succeeding nodes of $v_i$ in $P$ respectively.
-    This ratio is a measure of how great the return of this node is in relation to the additional distance needed to travel to it.
+    Where $v_j, v_k \in P$ are the preceding and succeeding nodes of $v_i$ in $P$ respectively.
+    This value is a measure of how great the return of this node is in relation to the additional distance needed to travel to it.
   \item We add the unvisited node $v_i$ with the highest value of the aforementioned quotient. 
     This means that we need to check each node for every position it could be inserted in $P$.
   \item If $P$ was improved in the previous step, apply 2-opt to it again.
@@ -148,4 +148,4 @@ The resulting path $P$ now replaces the worst harmony in $HM$.
 It might be the case that after some amount of iterations $HM$ contains only very similar paths.
 To remedy this, if some $R \in \mathbb{N}$ iterations passed without the worst harmony in $HM$ being replaced,
 all harmonies in $HM$ except the best one are discarded and filled with random paths again.
-
+This avoids the algorithm stagnating because of all paths in $HM$ being too similar to one another. 

@@ -1,10 +1,10 @@
 \subsection{Harmony Search}
 \label{subsec:04:hs}
 
-\emph{Harmony Search} is an optimization technique developed by \Citeauthor{geem_optimal_2000}. \cite{geem_optimal_2000}
-It is inspired by Jazz musicians' improvisation sessions. \cite{geem_introduction_2022}
-These musicians at first might not know which pitches to play in order to create a pleasant-sounding harmony.
-There is a vast amount of possible harmonies, but only comparatively few would be aesthetically pleasing.
+\emph{Harmony Search} \cite{geem_optimal_2000,geem_state---art_2010} is an optimization technique developed by \Citeauthor{geem_optimal_2000}.
+It makes use of an analogy where Jazz musicians' during their improvisation sessions \cite{geem_introduction_2022} try to find pitches that produce aesthetically pleasant harmonies by each playing a pitch on their instrument.
+There is a vast amount of possible harmonies, but only comparatively few would be aesthetically pleasing and 
+the musicians at first might not know which pitches to play in order to create a pleasant-sounding harmony.
 But the more the ensemble plays together, each player will remember which pitches, when played, lead to a good result.
 With this knowledge they can make more well-informed decisions, possibly leading to even better results.
 While making a decision, they might decide to stick with pitches that worked well in the past or might try to vary those pitches by a small amount.
@@ -12,7 +12,7 @@ While making a decision, they might decide to stick with pitches that worked wel
 It is this analogy that describes the way the harmony search technique operates.
 As with the aforementioned example, solutions to optimization problems in computer science can be considered to be vectors in a search space.
 These vectors correspond to harmonies in the analogy and are also called \emph{harmony} here.
-Thus each decision variable of this vector corresponds to a musician and each value produced by the variable to a pitch played by said musician.
+Thus, each decision variable of this vector corresponds to a musician and each value produced by the variable corresponds to a pitch played by said musician.
 Of course in optimization, we are not searching for \enquote{aesthetically pleasing} solution vectors, but rather we have some measure of quality for any solution vector, an objective function.
 We keep a list of solution vectors $HM$ (Harmony Memory) of size $HMS \in \mathbb{N}$ (Harmony Memory Size), which represents the memory of the musicians.
 In this list, we keep the best harmonies we have found so far but in the beginning, this will be filled with random solution vectors.

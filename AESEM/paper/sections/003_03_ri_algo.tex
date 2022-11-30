@@ -13,6 +13,7 @@ Improving paths is done using three methods.
 	\item Replace one node with another.
 \end{enumerate}
 
+\iffalse
 \begin{wrapfigure}{l}{0.45\textwidth}
 	\centering
 	\begin{subfigure}{0.45\textwidth}
@@ -69,6 +70,7 @@ Improving paths is done using three methods.
 	\caption{}
 	\label{fig:03:rialgoreorder}
 \end{wrapfigure}
+\fi
 
 \subsubsection{Reordering Nodes}
 \label{subsubsec:03:reorder}
@@ -84,10 +86,10 @@ There are two types of swaps between two nodes $v_i$ and $v_j$.
 \end{enumerate}
 If any of the two types of swaps decreases the weight, the better swap is applied to the path.
 
-An example path 1-2-3-4-5-6 is depicted in \cref{fig:03:rialgoreorderpath}.
-In \cref{fig:03:rialgoreorderkeep}, nodes $v_2$ and $v_5$ are swapped but the order of the nodes in between them is kept as is.
-The resulting path is 1-5-3-4-2-6.
-In \cref{fig:03:rialgoreorderreverse} the order of the nodes in between is reversed, resulting in the path 1-5-4-3-2-6.
+Say the path is $v_1, v_2, v_3, v_4, v_5, v_6$.
+If we swap nodes $v_2$ and $v_5$ and keep the order of the nodes in between them 
+then the resulting path is $v_1, v_5, v_3, v_4, v_2, v_6$.
+If instead we reverse the order of the nodes between $v_5$ and $v_2$, this results in the path $v_1, v_5, v_4, v_3, v_2, v_6$.
 
 \subsubsection{Introduction of new Nodes}
 
