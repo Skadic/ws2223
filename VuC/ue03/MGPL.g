@@ -5,15 +5,17 @@ options {
     backtrack=false;
 }
 
-LETTER
+fragment LETTER
     :   'a'..'z'
     |   'A'..'Z'
     ;
-NONZERO_DIGIT
+fragment NONZERO_DIGIT
 	:   '1'..'9';
 	
-ZERO:	'0';
-    
+fragment ZERO:	'0';
+fragment DIGIT
+	:   ZERO | NONZERO_DIGIT;    
+
 NEWLINE
 	:	'\r'? '\n' {skip();}
 	;
@@ -50,32 +52,20 @@ RPAREN
 TRUE:   'true';
 FALSE:   'false';
 
-MULTI_CHAR_IDF 
-    :    LETTER (LETTER|ZERO|NONZERO_DIGIT|'_')*
-	;
-	
-MULTI_DIGIT_INTEGER
-	:	ZERO 
-	|   (NONZERO_DIGIT (ZERO | NONZERO_DIGIT)+)
-    ;
-	
-
-integer
+INTEGER
 	:	ZERO
-	| 	NONZERO_DIGIT
-	|   MULTI_DIGIT_INTEGER
+	|   NONZERO_DIGIT DIGIT*
 	;
     
-identifier
-	:	LETTER
-	|   MULTI_CHAR_IDF
+IDENTIFIER
+	:	LETTER (LETTER|DIGIT|'_')*
 	;
 
 prog:   prog_header prog_body
     ;
     
 prog_header
-    : 'game ' identifier '(' attr_ass_list? ')'
+    : 'game ' IDENTIFIER '(' attr_ass_list? ')'
     ;
     
 prog_body
@@ -92,14 +82,14 @@ decl:   var_decl ';'
     ;
 
 var_decl
-    :	'int' identifier (init? | '[' integer ']')
+    :	'int' IDENTIFIER (init? | '[' INTEGER ']')
     ;
     
 init:   '=' expr
     ;
 
 obj_decl
-    :  	obj_type identifier ('(' attr_ass_list? ')' | '[' add_expr ']')
+    :  	obj_type IDENTIFIER ('(' attr_ass_list? ')' | '[' add_expr ']')
     ;
 
 obj_type
@@ -113,11 +103,11 @@ attr_ass_list
     ; 
 
 attr_ass
-    :	identifier '=' add_expr
+    :	IDENTIFIER '=' add_expr
     ;
 
 anim_block
-    :   'animation' identifier '(' obj_type identifier ')' stmt_block
+    :   'animation' IDENTIFIER '(' obj_type IDENTIFIER ')' stmt_block
     ;
 
 event_block
@@ -156,9 +146,9 @@ ass_stmt
     :   var '=' add_expr
     ;
 
-var : (identifier '.') => identifier '.' identifier
-	| (identifier '[') => identifier '[' add_expr ']' ('.' identifier)?
-    | identifier
+var : (IDENTIFIER '.') => IDENTIFIER '.' IDENTIFIER
+	| (IDENTIFIER '[') => IDENTIFIER '[' add_expr ']' ('.' IDENTIFIER)?
+    | IDENTIFIER
     ;
 
 expr:   or_expr;
@@ -203,7 +193,7 @@ negate_expr
 
 int_lit_expr
 	:	var
-	|   integer
+	|   INTEGER
 	|   LPAREN add_expr RPAREN
 	;
     
