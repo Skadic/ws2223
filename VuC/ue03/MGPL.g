@@ -10,7 +10,7 @@ LETTER
     |   'A'..'Z'
     ;
 NONZERO_DIGIT
-	:	 '1'..'9';
+	:   '1'..'9';
 	
 ZERO:	'0';
     
@@ -29,7 +29,29 @@ OTHER_WHITESPACE
 IF	:	'if';
 FOR :	'for';
 	
-MULTI_CHAR_IDF :	LETTER (LETTER|ZERO|NONZERO_DIGIT|'_')*
+ADD :   '+';
+
+MUL :   '*';
+SUB :   '-';
+INV :   '!';
+DIV :   '/';
+AND :   '&&';
+EQ  :	'==';
+LEQ :	'<' '='?;
+OR  :   '||';
+TOUCH
+	:	'touches';
+
+LPAREN 
+	:   '(';
+RPAREN
+	:	')';
+
+TRUE:   'true';
+FALSE:   'false';
+
+MULTI_CHAR_IDF 
+    :    LETTER (LETTER|ZERO|NONZERO_DIGIT|'_')*
 	;
 	
 MULTI_DIGIT_INTEGER
@@ -37,7 +59,8 @@ MULTI_DIGIT_INTEGER
 	|   (NONZERO_DIGIT (ZERO | NONZERO_DIGIT)+)
     ;
 	
-integer 
+
+integer
 	:	ZERO
 	| 	NONZERO_DIGIT
 	|   MULTI_DIGIT_INTEGER
@@ -76,7 +99,7 @@ init:   '=' expr
     ;
 
 obj_decl
-    :  	obj_type identifier ('(' attr_ass_list? ')' | '[' identifier ']')
+    :  	obj_type identifier ('(' attr_ass_list? ')' | '[' add_expr ']')
     ;
 
 obj_type
@@ -90,7 +113,7 @@ attr_ass_list
     ; 
 
 attr_ass
-    :	identifier '=' expr
+    :	identifier '=' add_expr
     ;
 
 anim_block
@@ -117,43 +140,71 @@ key_stroke
 
 stmt:   if_stmt 
     |   for_stmt 
-    |   ass_stmt
+    |   ass_stmt ';'
     ;
 
 
 if_stmt
-    :   IF '(' expr ')' stmt_block ('else' stmt_block)?
+    :   IF LPAREN or_expr RPAREN stmt_block ('else' stmt_block)?
     ; 
 
 for_stmt
-    :	FOR '(' ass_stmt ';' expr ';' ass_stmt ')' stmt_block
+    :	FOR LPAREN ass_stmt ';' or_expr ';' ass_stmt RPAREN stmt_block
     ;
 
 ass_stmt
-    :   var '=' expr ';'
+    :   var '=' add_expr
     ;
 
-var :   identifier ('[' expr ']')? ('.' identifier)?
+var : (identifier '.') => identifier '.' identifier
+	| (identifier '[') => identifier '[' add_expr ']' ('.' identifier)?
+    | identifier
     ;
 
-expr:   ('-' | '!') => unary_op_expr
-    |   (integer | identifier | '(') => other_expr (operator expr)?	
-    ;
-    
-    
-unary_op_expr
-	:   '-' expr 
-	|   '!' expr
+expr:   or_expr;
+
+or_expr
+	:	and_expr (OR and_expr)*
 	;
-other_expr
-	:	integer
-	|   var ('touches' var)? 
-	|   '(' expr ')'
+	
+and_expr
+    :   rel_expr (AND rel_expr)*
     ;
     
-operator
-	:	OP
+rel_expr
+    	:   (var TOUCH) => var TOUCH var
+    	|   (TRUE | FALSE | LPAREN | INV) => invert_expr (EQ invert_expr)?
+ 	|   add_expr ((EQ | LEQ) add_expr)?
+ 	;
+    
+invert_expr
+    :   INV bool_lit_expr
+    |   bool_lit_expr
+    ;
+    
+bool_lit_expr
+	:   TRUE
+	|   FALSE
+	|   var
+	|   LPAREN or_expr RPAREN;
+
+add_expr
+	:   mul_expr ((ADD | SUB) mul_expr)*
+	;
+	
+
+mul_expr
+	:   negate_expr ((MUL | DIV) negate_expr)*
+	;
+
+negate_expr
+	:	SUB int_lit_expr
+	|   int_lit_expr;
+
+int_lit_expr
+	:	var
+	|   integer
+	|   LPAREN add_expr RPAREN
 	;
     
-OP  :   '||' | '&&' | '==' | '<' '='? | '+' | '-' | '*' | '/'
-    ;
+    

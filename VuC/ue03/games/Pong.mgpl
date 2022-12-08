@@ -1,12 +1,13 @@
 // Set up game window
 
-game Pong(width = 4, height = 300, speed = 95)
+game Pong(width = 400, height = 300, speed = 95)
 
 
 // declare global variables used in
 // (1) game object instantiation
 // (2) animation and event handler blocks
 // int test[42];
+int internet = 100;
 int paddle_increment = 10;
 int ball_x_increment = 5;
 int ball_y_increment = 2;
@@ -14,7 +15,9 @@ int paddle_width = 5;
 int paddle_height = 40;
 int ball_size = 10;
 
-// create a rectangle that will be used for the paddle
+// create a rectangle that will be used for the paddle a - b * c
+// a + b - c + d
+// a + b - c + d == 0
 
 rectangle paddle(x = Pong.width/10, y = Pong.height/2, w = paddle_width, h = paddle_height);
 
