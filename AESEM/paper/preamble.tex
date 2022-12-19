@@ -16,16 +16,24 @@
             
 % Math and Symbols
 \usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{amssymb}
 \usepackage{gensymb}
 
 % Textstuff
 \usepackage{csquotes}
 \usepackage{url}
-\usepackage{hyperref}
+\usepackage[normalem]{ulem}
+\usepackage{multirow}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{algorithmicx}
 \usepackage{lmodern}            % Provides the Latin Modern Font which offers more glyphs than the default Computer Modern
+\usepackage{hyperref}
 \usepackage[nameinlink]{cleveref}
 \crefname{figure}{figure}{figures}
+\crefname{equation}{equation}{equations}
 %\crefname{subfigure}{Abbildung}{Abbildung}
 %\crefname{table}{Tabelle}{Tabelle}
 %\crefname{listing}{Quelltext}{Quelltext}
@@ -46,6 +54,11 @@
 \newcommandx{\missing}[2][1=]{\todo[linecolor=yellow!25,backgroundcolor=yellow!25,bordercolor=yellow,#1]{#2}}
 \newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
 \newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+\newcommand{\tsplong}{\textsc{TravellingSalesmanProblem} }
+\newcommand{\tsp}{\textsc{TSP}}
+\newcommand{\oplong}{\textsc{OrienteeringProblem} }
+\newcommand{\op}{\textsc{OP}}
 
 % Set Paragraph Skip
 %\setlength{\parskip}{0.5\baselineskip}%

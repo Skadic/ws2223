@@ -1,6 +1,6 @@
 \subsubsection{Generalizing to non-Euclidean Inputs}
 
-This algorithm can be adapted to work on non-Euclidean inputs, however some heuristics used do not work outside a Euclidean or similarly restrictive (see \cref{par:03:dalgogeneralizemetrics}) input.
+This algorithm can be adapted to work on non-Euclidean inputs, however some heuristics used do not work outside a Euclidean or similarly restrictive input.
 
 \paragraph{Center of Gravity}
 In \cref{par:04:choosemodified} we used a center of gravity heuristic for $Rc_i$ that associated a point in space with the highest expected score,
@@ -8,7 +8,7 @@ by computing a weighted average of the nodes' coordinates weighted by their scor
 This of course requires the points to have coordinates, so this would require the nodes to be situated in a coordinate space like the Euclidean space.
 An option is to simply drop this heuristic and modify $W_i$ to say
 \begin{align*}
-  W_i &= 0.8 \cdot Rs_i + 0.2 \cdot Rp_i
+	W_i & = 0.8 \cdot Rs_i + 0.2 \cdot Rp_i
 \end{align*}
 This would only require the graph to be complete, since we need to calculate the distance between the currently visited node and every other unvisited node for $Rp_i$.
 
@@ -23,5 +23,5 @@ Similarly to the S-Algorithm (see \cref{subsec:03:salgo}) this algorithm navigat
 With the same argumentation as in \cref{par:03:salgotriangle} it can be said that the Szwarc-Boryczka algorithm likely will deliver worse results on a graph that does not satisfy the triangle equation.
 Since navigation is a crucial part of these algorithms, this would likely strongly impact the results.
 
-In summary, the algorithm should deliver decent results on graphs that satisfy the triangle equation. 
-However to what extent this impacts the results remains to be tested empirically.
+In summary, the algorithm should deliver decent results on graphs that satisfy the triangle equation.
+However, to what extent this impacts the results remains to be tested empirically.

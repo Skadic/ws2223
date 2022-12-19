@@ -1,12 +1,21 @@
 \section{Conclusion}
 
 In conclusion, we have seen that the majority of the literature concerns itself with Euclidean input,
-and we set out to try and generalize existing approaches by \citeauthor{tsiligiridis_heuristic_1984} and \citeauthor{szwarc_novel_2022} to less restrictive inputs. 
+and we set out to try and generalize existing approaches by \citeauthor{tsiligiridis_heuristic_1984} and \citeauthor{szwarc_novel_2022} to less restrictive inputs.
+We have considered reasons as for why Euclidean inputs are almost ubiquitous in the literature.
+Real-world applications can most often be sensibly approximated by a Euclidean input (refer to \cref{subsec:02:reasons}).
 
-While some solution approaches seem to have a fairly straightforward generalization to graphs that satisfy the triangle equation (see \cref{subsec:03:salgo}),
-some require the removal of some of their heuristics (see \cref{subsec:04:algo}),
-and some do not seem to be trivially generalizable like this (see \cref{subsec:03:dalgo}).
-Others do not make any allusions to requirements on the input, and as such seem to work on any input without impairment compared to Euclidean inputs (see \cref{subsec:03:rialgo}).
+Some solution approaches seem to have a fairly straightforward generalization to graphs that satisfy the triangle equation (see \cref{subsec:03:salgo}).
+In our case, the S-Algorithm does not directly require the input to have any properties that are exclusively Euclidean.
+As such, the algorithm could be used on inputs that satisfy the triangle inequality without modification.
 
-Of course this varies for each algorithm and there are might be algorithms which can be modified to work with more general inputs without sacrificing much of there solution quality. 
-However, all such generalizations must be evaluated empirically, before any conclusive statement about them can be made.
+However, other algorithms some require the removal of some of their heuristics (see \cref{subsec:04:algo}),
+and do not seem to be trivially generalizable like the S-Algorithm.
+\citeauthor{szwarc_novel_2022}'s algorithm requires the omission of its center-of-gravity heuristic to be able to work on non-Euclidean inputs as it requires the nodes to have coordinates.
+In addition, the 2-opt method might be difficult to apply, since the concept of crossing edges can be difficult to formulate on a graph that for example only satisfies the triangle inequality.
+
+Other algorithms do not make any allusions to requirements on the input, and as such seem to work on any input without impairment compared to Euclidean inputs (see \cref{subsec:03:rialgo}).
+
+Of course this varies for each algorithm and there might be algorithms which can be modified to work with more general inputs without sacrificing much of their solution quality.
+However, all such generalizations including the ones presented here must be evaluated empirically, before any conclusive statement about them can be made.
+

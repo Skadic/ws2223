@@ -2,10 +2,10 @@
 \label{subsec:04:hs}
 
 \emph{Harmony Search} \cite{geem_optimal_2000,geem_state---art_2010} is an optimization technique developed by \Citeauthor{geem_optimal_2000}.
-It makes use of an analogy where Jazz musicians' during their improvisation sessions \cite{geem_introduction_2022} try to find pitches that produce aesthetically pleasant harmonies by each playing a pitch on their instrument.
-There is a vast amount of possible harmonies, but only comparatively few would be aesthetically pleasing and 
-the musicians at first might not know which pitches to play in order to create a pleasant-sounding harmony.
-But the more the ensemble plays together, each player will remember which pitches, when played, lead to a good result.
+It makes use of an analogy where Jazz musicians, during their improvisation sessions, try to find pitches that produce aesthetically pleasant harmonies by each playing a pitch on their instrument. \cite{geem_introduction_2022}
+There is a vast amount of possible harmonies, but only comparatively few would be aesthetically pleasing.
+The musicians, at first, might not know which pitches to play in order to create a pleasant-sounding harmony.
+But the more the ensemble plays together, the more each player will remember which pitches, when played, lead to a good result.
 With this knowledge they can make more well-informed decisions, possibly leading to even better results.
 While making a decision, they might decide to stick with pitches that worked well in the past or might try to vary those pitches by a small amount.
 
@@ -17,7 +17,7 @@ Of course in optimization, we are not searching for \enquote{aesthetically pleas
 We keep a list of solution vectors $HM$ (Harmony Memory) of size $HMS \in \mathbb{N}$ (Harmony Memory Size), which represents the memory of the musicians.
 In this list, we keep the best harmonies we have found so far but in the beginning, this will be filled with random solution vectors.
 
-In each iteration we create a new harmony, check if the new harmony is better than the worst harmony in $HM$ and if so, insert it.
+In each iteration we create a new harmony, check if the new harmony is better than the worst harmony in $HM$ and if so, replace the worst harmony in $HM$ with it.
 We continue iterating until either the best solution has reached a desired quality according to the objective function, or until a set number of iteration has elapsed.
 
 \subsubsection{Creating a new Harmony}

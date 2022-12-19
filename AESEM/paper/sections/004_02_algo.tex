@@ -1,73 +1,101 @@
 \subsection{Algorithm}
 \label{subsec:04:algo}
 
-\citeauthor{szwarc_novel_2022} applied the concepts explained in \cref{subsec:04:hs} to the OP. \cite{szwarc_novel_2022}
+\citeauthor{szwarc_novel_2022} applied the concepts explained in \cref{subsec:04:hs} to the \op. \cite{szwarc_novel_2022}
 
 The solution vectors in $HM$ are arrays that store the nodes visited by each path in the order in which they are visited.
 %We will use the Euclidean graph in \cref{fig:04:graphexample} as an example.
 %For simplicity, we omit the bound $T_{max}$ in this example.
 A possible state of an $HM$ is depicted in \cref{fig:04:hm}.
 
-\iffalse
 \begin{figure}
 	\centering
-	\begin{tikzpicture}
-		\node at (0,0) (1) {$v_1$};
-		\node[left=-3mm of 1] {\tiny{$(0,0)$}};
-		\node at (1,1) (2) {$v_2$};
-		\node[above left=-3mm of 2] {\tiny{$(1,1)$}};
-		\node[above right=-3mm of 2] {\small{$2$}};
-		\node at (1,-1) (3) {$v_3$};
-		\node[below left=-3mm of 3] {\tiny{$(1,-1)$}};
-		\node[below right=-3mm of 3] {\small{$5$}};
-		\node at (3,1) (4) {$v_4$};
-		\node[above left=-3mm of 4] {\tiny{$(3,1)$}};
-		\node[above right=-3mm of 4] {\small{$2$}};
-		\node at (3,-1) (5) {$v_5$};
-		\node[below left=-3mm of 5] {\tiny{$(3,-1)$}};
-		\node[below right=-3mm of 5] {\small{$5$}};
-		\node at (4,0) (6) {$v_6$};
-		\node[right=-3mm of 6] {\tiny{$(4,0)$}};
+	\begin{tikzpicture}[nd/.style={draw,shape=circle}]
+		\tikzset{cross/.style={cross out, draw,
+					minimum size=2*(#1-\pgflinewidth),
+					inner sep=0pt, outer sep=0pt},
+			cross/.default={3pt}};
 
-		\draw (1) -- (2);
-		\draw (1) -- (3);
-		\draw (1) -- (4);
-		\draw (1) -- (5);
-		\draw (1) -- (6);
-		\draw (2) -- (3);
-		\draw (2) -- (4);
-		\draw (2) -- (5);
-		\draw (2) -- (6);
-		\draw (3) -- (4);
-		\draw (3) -- (5);
-		\draw (3) -- (6);
-		\draw (4) -- (5);
-		\draw (4) -- (6);
-		\draw (5) -- (6);
+		\node[nd] at (0,0) (1) {$v_1$};
+		\node[below=-1mm of 1] {\tiny{$(0,0)$}};
+
+		\node[nd] at (1,1) (2) {$v_2$};
+		\node[below=-1mm of 2] {\tiny{$(1,1)$}};
+		\node[above=-1mm of 2] {\small{$2$}};
+
+		\node[blue, nd] at (1,-1) (3) {$v_3$};
+		\node[below=-1mm of 3] {\tiny{$(1,-1)$}};
+		\node[above=-1mm of 3] {\small{$5$}};
+
+		\node[blue, nd] at (2,2) (4) {$v_4$};
+		\node[below=-1mm of 4] {\tiny{$(2,2)$}};
+		\node[above=-1mm of 4] {\small{$5$}};
+
+		\node[blue, nd] at (2,-2) (5) {$v_5$};
+		\node[below=-1mm of 5] {\tiny{$(2,-2)$}};
+		\node[above=-1mm of 5] {\small{$2$}};
+
+		\node[nd] at (3,1) (6) {$v_6$};
+		\node[below=-1mm of 6] {\tiny{$(3,1)$}};
+		\node[above=-1mm of 6] {\small{$2$}};
+
+		\node[red, nd] at (3,-1) (7) {$v_7$};
+		\node[below=-1mm of 7] {\tiny{$(3,-1)$}};
+		\node[above=-1mm of 7] {\small{$5$}};
+
+		\node[nd] at (4,0) (8) {$v_8$};
+		\node[below=-1mm of 8] {\tiny{$(4,0)$}};
+
+		\draw[->] (1) -- (2);
+		\draw[->] (2) -- (7);
+		\draw[blue,->] (7) -- (4);
+		\draw[blue,->] (7) -- (3);
+		\draw[blue,->] (7) -- (5);
+
+		\node[cross,orange] at (2,0) (aa) {};
+		\draw[orange] (2,0) circle (3pt);
+
+		\iffalse
+			\draw (1) -- (2);
+			\draw (1) -- (3);
+			\draw (1) -- (4);
+			\draw (1) -- (5);
+			\draw (1) -- (6);
+			\draw (2) -- (3);
+			\draw (2) -- (4);
+			\draw (2) -- (5);
+			\draw (2) -- (6);
+			\draw (3) -- (4);
+			\draw (3) -- (5);
+			\draw (3) -- (6);
+			\draw (4) -- (5);
+			\draw (4) -- (6);
+			\draw (5) -- (6);
+		\fi
 	\end{tikzpicture}
-	\caption{A Euclidean graph with a position and score for each node.}
+	\caption{A Euclidean graph with a position and score for each node. The algorithm is building a new path. The red node is currently the last node of the path. The blue edges and nodes are considered by the algorithm to be inserted next.
+		The center of gravity is marked in orange. It is only coincidentally that it is in the center.}
 	\label{fig:04:graphexample}
 \end{figure}
-\fi
 
 \begin{wrapfigure}{l}{0.5\textwidth}
 	\centering
 	\adjustbox{width=0.45\textwidth, keepaspectratio}{
 		\begin{tikzpicture}[every node/.style={draw,minimum width=1cm,minimum height=1cm}]
 			\matrix [row sep=3mm] (mat) {
-				\node[draw=none] (0) {$0$}; & \node {$v_1$}; & \node{$v_3$}; & \node{$v_2$}; & \node {$v_5$}; & \node {$v_6$}; \\
-				\node[draw=none] {$1$}; & \node {$v_1$}; & \node {$v_4$}; & \node {$v_3$}; & \node{$v_6$};                           \\
-				\node[draw=none] {$2$}; & \node {$v_1$}; & \node{$v_2$}; & \node{$v_4$}; & \node{$v_5$}; & \node{$v_6$}; \\
+				\node[draw=none] (0) {$0$}; & \node {$v_1$}; & \node[red]{$v_7$}; & \node[blue]{$v_5$}; & \node{$v_8$};                           \\
+				\node[draw=none] {$1$}; & \node {$v_1$}; & \node {$v_3$}; & \node[red]{$v_7$}; & \node[blue]{$v_4$}; & \node{$v_8$}; \\
+				\node[draw=none] {$2$}; & \node {$v_1$}; & \node{$v_2$}; & \node[red]{$v_7$}; & \node[blue]{$v_3$}; & \node{$v_8$}; \\
 			};
 			\node[draw=none, above=0cm of 0] {$i$};
 			\node[draw=none, above=0cm of mat] {$HM$};
 		\end{tikzpicture}%
 	}%
-	\caption{An example $HM$ with paths starting at node $v_1$ and ending at node $v_6$.}
+	\caption{An example $HM$ with paths starting at node $v_1$ and ending at node $v_8$.}
 	\label{fig:04:hm}
 \end{wrapfigure}
 
-This results in the solution vectors not being the same size.
+This results in the solution vectors possibly not being the same size.
 This is not an issue, but it might raise the question of how values for a new harmony, that is a new path, are chosen.
 
 \subsubsection{Choosing the next Node}
@@ -86,6 +114,11 @@ We then assign each node in $L$ the objective function value of the harmony they
 It could be the case that $L$ is empty. The nodes previously in $L$ could have violated $T_{max}$ or $c$ did not appear in $HM$.
 In this case, we insert all unvisited nodes that do not violate $T_{max}$ into $L$ and weigh a node $v \in L$ by the quotient of its score by the distance between $c$ and $v$, so: $\tfrac{s(v)}{t(c, v)}$.
 We then choose a node again with a weighted distribution based on these weights.
+
+In the example in \cref{fig:04:graphexample,fig:04:hm} we have $P = [v_1, v_2, v_7]$.
+We search for $v_7$ in $HM$ and find that it is followed by $v_3$, $v_4$ and $v_5$ respectively.
+So $L = \{v_3, v_4, v_5\}$. Their respective weights are $\tfrac{5}{2}, \tfrac{4}{\sqrt{10}}$ and $\tfrac{2}{\sqrt{2}}$.
+We now choose one of these nodes by weighing them by those weights.
 
 \phantomsection
 \label{par:04:choosemodified}
@@ -108,11 +141,36 @@ To modify we use three heuristics and rank all nodes by each of them.
 
 Each node's weight is then defined as:
 \begin{equation*}
-  W_i := 0.7 \cdot Rs_i + 0.2 \cdot Rc_i + 0.1 \cdot Rp_i
+	W_i := 0.7 \cdot Rs_i + 0.2 \cdot Rc_i + 0.1 \cdot Rp_i
 \end{equation*}
 
 We then choose a node from $U$ with each node being weighted by its $W_i$.
 It should be noted that we prioritize \emph{lower} $W_i$.
+
+
+\begin{table}
+	\centering
+	\begin{tabular}[c]{|c|c|c|c|c|c|}
+		\hline
+		\multirow{2}{*}{\textbf{Node}} & \multicolumn{3}{c|}{\textbf{Ranks}} & \multirow{2}{*}{$W_i$}                  \\
+		                               & $Rs_i$                              & $Rc_i$                 & $Rp_i$ &       \\\hline
+		$v_3$                          & $1$                                 & $1$                    & $2$    & $1.1$ \\\hline
+		$v_4$                          & $1$                                 & $2$                    & $3$    & $1.4$ \\\hline
+		$v_5$                          & $2$                                 & $2$                    & $1$    & $1.9$ \\\hline
+		$v_6$                          & $2$                                 & $1$                    & $2$    & $1.8$ \\\hline
+	\end{tabular}
+	\caption{The rank values for the example in \cref{fig:04:graphexample,fig:04:hm}.}
+	\label{tab:04:ranks}
+\end{table}
+
+To calculate the values for our example, we first calculate the center of gravity:
+
+\begin{align*}
+	x := \frac{42}{21} = 2 & y := \frac{0}{21} = 0
+\end{align*}
+
+The values for the examples in \cref{fig:04:graphexample,fig:04:hm} are depicted in \cref{tab:04:ranks}.
+Using the ranks as weights, prioritizing lower weights, we choose one of the four nodes.
 
 \paragraph{Choosing a random Node}
 
@@ -127,18 +185,18 @@ If it is not better, the solution is discarded and a new iteration begins.
 If it \emph{is} better, we improve $P$ in four steps.
 
 \begin{enumerate}
-  \item We optimize the path using the \emph{2-opt} method which was first described by \citeauthor{croes_method_1958}. \cite{croes_method_1958}
-    For each pair of edges $\{a,b\}, \{c, d\} \in E$ that are part of $P$ we check whether they cross each other. 
-    If so, we reorder the nodes in $P$ such that $\{a, c\}$ and $\{b, d\}$ are now part of the path instead. Now they do not cross anymore.
-  \item We remove the node $v_i \in P$ with the lowest value of the following quotient:
-    \begin{equation*}
-      \frac{s(v_i)}{t(v_j, v_i) + t(v_i, v_k) - t(v_j, v_k)}
-    \end{equation*}
-    Where $v_j, v_k \in P$ are the preceding and succeeding nodes of $v_i$ in $P$ respectively.
-    This value is a measure of how great the return of this node is in relation to the additional distance needed to travel to it.
-  \item We add the unvisited node $v_i$ with the highest value of the aforementioned quotient. 
-    This means that we need to check each node for every position it could be inserted in $P$.
-  \item If $P$ was improved in the previous step, apply 2-opt to it again.
+	\item We optimize the path using the \emph{2-opt} method which was first described by \citeauthor{croes_method_1958}. \cite{croes_method_1958}
+	      For each pair of edges $\{a,b\}, \{c, d\} \in E$ that are part of $P$ we check whether they cross each other.
+	      If so, we reorder the nodes in $P$ such that $\{a, c\}$ and $\{b, d\}$ replace the original two edges. Now they do not cross anymore. In practice, one would choose an upper limit of iterations, to limit the time this requires.
+	\item We remove the node $v_i \in P$ with the lowest value of the following quotient:
+	      \begin{equation*}
+		      \frac{s(v_i)}{t(v_j, v_i) + t(v_i, v_k) - t(v_j, v_k)}
+	      \end{equation*}
+	      Where $v_j, v_k \in P$ are the preceding and succeeding nodes of $v_i$ in $P$ respectively.
+	      This value is a measure of how great the return of this node is in relation to the additional distance needed to travel to it.
+	\item We add the unvisited node $v_i$ with the highest value of the aforementioned ratio.
+	      This means that we need to check each node for every position it could be inserted in $P$.
+	\item If $P$ was improved in the previous step, apply 2-opt to it again.
 \end{enumerate}
 
 The resulting path $P$ now replaces the worst harmony in $HM$.
@@ -146,6 +204,8 @@ The resulting path $P$ now replaces the worst harmony in $HM$.
 \subsubsection{Avoiding premature Convergence}
 
 It might be the case that after some amount of iterations $HM$ contains only very similar paths.
+If that is the case, then each iteration of the algorithm might not improve the best solution, since there is only little variety to pull from when creating a new harmony.
+Therefore, we should avoid having the entirety of $HM$ prematurely converging to a possibly only local optimum.
 To remedy this, if some $R \in \mathbb{N}$ iterations passed without the worst harmony in $HM$ being replaced,
 all harmonies in $HM$ except the best one are discarded and filled with random paths again.
-This avoids the algorithm stagnating because of all paths in $HM$ being too similar to one another. 
+This avoids the algorithm stagnating because of all paths in $HM$ being too similar to one another.
