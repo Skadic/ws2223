@@ -10,6 +10,7 @@ An option is to simply drop this heuristic and modify $W_i$ to say
 \begin{align*}
 	W_i & = 0.8 \cdot Rs_i + 0.2 \cdot Rp_i
 \end{align*}
+Here we removed the center of gravity heuristic and filled the now vacant space in the coefficients by increasing the coefficients for $Rs_i$ and $Rp_i$ by equal parts. 
 This would only require the graph to be complete, since we need to calculate the distance between the currently visited node and every other unvisited node for $Rp_i$.
 
 \paragraph{2-opt}

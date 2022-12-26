@@ -1,24 +1,24 @@
 \section{Introduction}
 \label{sec:01:introduction}
 
-The amount of logistic problems that are concerned with routing are ever-increasing.
-To use the metaphor of the \tsplong and borrow from \citeauthor{chao_fast_1996} \cite{chao_fast_1996},
+The amount and complexity of logistic problems that are concerned with routing are ever-increasing \cite{stein_top_2021}.
+To use the metaphor of the \tsplong{} and borrow from \citeauthor{chao_fast_1996} \cite{chao_fast_1996},
 say there is a salesman, who is en route from a certain city to another city and wants to visit customers in different locations while on the way.
 He might not have enough time to visit every customer, so he seeks a route which maximizes the profit while respecting his time restriction.
 
-Such problems can be modeled by the \oplong (\op), or variants thereof,
+Such problems can be modeled by the \oplong{} (\op{}), or variants thereof,
 whose basic premise is the collection of score or profit from specific locations while on a time or travel length budget.
 This problem was described by \citeauthor{tsiligiridis_heuristic_1984} \cite{tsiligiridis_heuristic_1984} who related it to the eponymous orienteering sport.
 In this sport, both a start and end point are given. Participants now have the task of navigating to designated checkpoints which will award them with points upon reaching them.
 While doing so, they are subject to a time limit which, if exceeded, will lead to disqualification or penalization.
 
-Like the examples just presented, real-world applications of the OP are Euclidean in nature and
-most if not all approaches in the literature assume a Euclidean input. \cite{vansteenwegen_orienteering_2011}
+Like the examples just presented, real-world applications of the \op{} are Euclidean in nature, that is and most if not all approaches in the literature assume a Euclidean input \cite{vansteenwegen_orienteering_2011}. 
+In this context, \emph{Euclidean} denotes that all nodes in the graph, each node representing a checkpoint, are associated with a position in space, and the distance or travel time between each pair of nodes is the Euclidean distance between them (see \cref{subsec:02:euclidean}).
 Thus if one wanted to solve a more general instance of the OP, one would need to either find new approaches altogether,
 or try to adapt existing approaches to more general formulations.
 
 As the OP is an NP-hard problem \cite{golden_orienteering_1987}, efficient but not exact algorithms are of particular interest.
 
-We will introduce some algorithms from the literature, an older one as well as a recent one
-then discuss their applicability to more general formulations of the OP
+This paper introduces some algorithms from the literature, an older one as well as a recent one,
+then discusses their applicability to more general formulations of the OP
 and whether there are adaptations such that the algorithms can be used on less restricted inputs.

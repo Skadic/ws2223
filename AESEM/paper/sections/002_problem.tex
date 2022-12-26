@@ -8,13 +8,13 @@ $s: V \rightarrow \mathbb{R}_+$ be a function assigning a score to each vertex.
 For $v_i, v_j \in V$ we write $t(v_i, v_j) := t(\{v_i, v_j\})$ for simplicity.
 Also let $T_{max} \in \mathbb{R}_+$ be a time limit.
 
-The objective of the \oplong is to find a path starting at $v_1$ and ending at $v_n$
+The objective of the \oplong{} is to find a path starting at $v_1$ and ending at $v_n$
 such that the sum of its score is maximized while still respecting the time bound $T_{max}$.
-More formally, find $P = [p_1, \dots, p_k]$, $p_i \in V,\ i=1,\dots, k$ for some $k \in \mathbb{N}$ where $1 \leq k \leq n$,  $p_1 = v_1$ and $p_k = v_n$ such that
-In addition, if $P$ and $Q$ are paths then let $P \cup Q$ refer to the concatenation of $P$ and $Q$.
+in addition, if $P$ and $Q$ are paths then let $P \cup Q$ refer to the concatenation of $P$ and $Q$.
 Here $v_1$ and $v_n$ need not be fixed.
-However, when applying the \op to real-world problems there usually is a designated start and end location,
+However, when applying the \op{} to real-world problems there usually is a designated start and end location,
 so $v_1$ and $v_n$ commonly are fixed.
+More formally, find a path $P = [p_1, \dots, p_k]$, $p_i \in V,\ i=1,\dots, k$ for some $k \in \mathbb{N}$ where $1 \leq k \leq n$,  $p_1 = v_1$ and $p_k = v_n$ such that
 
 \begin{align*}
 	T(P) := \sum_{i = 2}^k t(p_{i-1}, p_i) \leq T_{max}
@@ -28,14 +28,14 @@ holds and
 
 is maximized.
 
-While the above definition forms the base of the \op, the solutions found in the literature restrict the types of graphs that are allowed as input.
+While the above definition forms the base of the \op{}, the solutions found in the literature restrict the types of graphs that are allowed as input.
 We will introduce some restrictions prevalent in the literature in ascending order of their strictness.
 
 \subsection{Complete Graphs}
 \label{subsec:02:complete}
 
 A graph is \emph{complete} if and only if for any two nodes $v_i \neq v_j \in V$, there exists a corresponding edge $\{v_i, v_j\} \in E$.
-An almost unanimous \cite{vansteenwegen_orienteering_2011} restriction in the literature regarding the \op and its variants is the requirement of graph completeness. \cite{szwarc_novel_2022,vansteenwegen_orienteering_2011,laporte_selective_1990,santini_hazardous_2022}
+An almost unanimous \cite{vansteenwegen_orienteering_2011} restriction in the literature regarding the \op{} and its variants is the requirement of graph completeness \cite{szwarc_novel_2022,vansteenwegen_orienteering_2011,laporte_selective_1990,santini_hazardous_2022}.
 
 This allows simplifying algorithms while not being too restrictive.
 One could insert missing edges into an incomplete graph by for example choosing the time of the shortest path in the preexisting graph for each missing edge's weight.
@@ -43,7 +43,7 @@ However, this of course would require additional computation which might be expe
 
 If it is not desired for the missing edges to be traversable,
 edges with a weight of $\infty$ or a weight greater than $T_{max}$ could be chosen.
-Note, that this method may not work for all algorithms. Examples of this will be discussed later. (see \cref{subsec:03:salgo})
+Note, that this method may not work for all algorithms. Examples of this will be discussed later (see \cref{subsec:03:salgo}).
 
 \subsection{Triangle Inequality}
 \label{subsec:02:triangle}
@@ -56,15 +56,15 @@ Any three vertices $u \neq v \neq w \in V$ satisfy the inequality
 \end{align*}
 where again the function $t$ represents the weight of the edge between the given nodes.
 
-Since this definition requires the graph to be complete and therefore entails the requirement described in \cref{subsec:02:complete}.
+Since this definition requires the graph to be complete it therefore entails the requirement described in \cref{subsec:02:complete}.
 Intuitively this means that there is no path between nodes $u$ and $w$ that has a strictly lesser weight
 than the direct edge $\{u, w\}$. So no \enquote{detour} will ever be faster than the direct path.
 
 This requirement is less frequently explicitly stated \cite{santini_hazardous_2022} but more often implied by requiring a Euclidean metric (see \cref{subsec:02:euclidean}).
 
 The benefit of operating on a graph that satisfies the triangle inequality
-is that it provides a significant advantage to algorithms that take advantage of it.
-(see \cref{subsec:03:salgo,subsec:04:algo})
+is that it provides a significant advantage to algorithms that take advantage of it
+(see \cref{subsec:03:salgo,subsec:04:algo}).
 
 \begin{figure}
 	\centering
@@ -88,7 +88,7 @@ is that it provides a significant advantage to algorithms that take advantage of
 	\end{tikzpicture}
 	\caption{A complete graph that satisfies the triangle inequality.
 		The start node is marked by an inward-facing arrow and the end node by an outward-facing arrow.
-		The edges and nodes marked in red are the edges the algorithm has so far included in its solution to the \op.
+    The edges and nodes marked in red are the edges the algorithm has so far included in its solution to the \op{}.
 		Each node's score is $1$, but it is omitted in the graphic for readability.}
 	\label{fig:02:example_triangle}
 \end{figure}
@@ -98,12 +98,12 @@ Let the current path be $P = [p_1, \dots, p_k] \subseteq V$ where $p_1 = v_1$.
 In each step, pick the node for which the following holds:
 
 \begin{align}
-	            & \argmax_{v_i \in V \backslash (P \cup \{v_n\})} \frac{s(v_i)}{d(p_k, v_i)} \label{eq:02:maxratio} \\
+	            & \argmax_{v_i \in V \setminus (P \cup \{v_n\})} \frac{s(v_i)}{d(p_k, v_i)} \label{eq:02:maxratio} \\
 	\text{and } & T(P \cup [v_i, v_n]) \leq T_{max}  \label{eq:02:tmaxcond}
 \end{align}
 
-In other words, always pick the unvisited node $v_i$ which maximizes the ratio between score earned and distance travelled, (\cref{eq:02:maxratio})
-which also respects the constraint $T_{max}$ when travelling from the end of the path to $v_i$ and then to the end $v_n$. (\cref{eq:02:tmaxcond})
+In other words, always pick the unvisited node $v_i$ which maximizes the ratio between score earned and distance travelled (\cref{eq:02:maxratio}),
+which also respects the constraint $T_{max}$ when travelling from the end of the path to $v_i$ and then to the end $v_n$ (\cref{eq:02:tmaxcond}).
 If no such node is available, add $v_n$ to $P$ and complete the path.
 
 An example graph is depicted in \cref{fig:02:example_triangle}.
@@ -138,23 +138,23 @@ So the weight of each edge is the Euclidean distance between them. Note, that th
 Since the Euclidean distance is a metric, it also satisfies the triangle inequality.
 It follows that this metric entails the restrictions from \cref{subsec:02:complete,subsec:02:triangle}.
 
-As stated by \citeauthor{vansteenwegen_orienteering_2011} in their survey paper on this topic \cite{vansteenwegen_orienteering_2011}, the \op's definition is general, however the algorithms described in the literature in general are in respect to such Euclidean graphs. \cite{golden_orienteering_1987,tsiligiridis_heuristic_1984,szwarc_novel_2022,geem_harmony_2005}.
+As stated by \citeauthor{vansteenwegen_orienteering_2011} in their survey paper on this topic \cite{vansteenwegen_orienteering_2011}, the \op{}'s definition is general, however the algorithms described in the literature in general are in respect to such Euclidean graphs \cite{golden_orienteering_1987,tsiligiridis_heuristic_1984,szwarc_novel_2022,geem_harmony_2005}.
 
-However, some approaches might even work as is on graphs with only the previous two restrictions (see \cref{subsec:03:salgo}) or they may be adapted to work with such graphs while perhaps losing some of their quality. (see \cref{sec:04:szwarc})
+However, some approaches might even work as is on graphs with only the previous two restrictions (see \cref{subsec:03:salgo}) or they may be adapted to work with such graphs while perhaps losing some of their quality (see \cref{sec:04:szwarc}).
 
 \subsection{Applications}
 \label{subsec:02:reasons}
 
-If one looks at examples of applications of the \oplong and its variants to real-world routing problems,
+If one looks at examples of applications of the \oplong{} and its variants to real-world routing problems,
 some reasons for these common restrictions might become apparent. Examples are:
 \begin{itemize}
-	\item The scenario mentioned in \cref{sec:01:introduction} in which a salesman searches for a route between cities while maximizing his profit. \cite{chao_fast_1996}
-	\item A logistic company planning routes for a vehicle collecting hazardous but profitable parcels from clients while minimizing the time they are in transit for fear of them leading to all profit being lost. \cite{santini_hazardous_2022}
-	\item Planning tours through a country while trying to maximize the enjoyment of the tour while having a restriction on the maximum travel distance. \cite{geem_harmony_2005}
-	\item The original sport of orienteering which inspired the name of the \op. \cite{tsiligiridis_heuristic_1984}
+	\item The scenario mentioned in \cref{sec:01:introduction} in which a salesman searches for a route between cities while maximizing his profit \cite{chao_fast_1996}.
+	\item A logistic company planning routes for a vehicle collecting hazardous but profitable parcels from clients while minimizing the time they are in transit for fear of them leading to all profit being lost \cite{santini_hazardous_2022}.
+	\item Planning tours through a country while trying to maximize the enjoyment of the tour while having a restriction on the maximum travel distance \cite{geem_harmony_2005}.
+  \item The original sport of orienteering which inspired the name of the \op{} \cite{tsiligiridis_heuristic_1984}.
 \end{itemize}
 
-As they relate to the real world, modeling them in terms of the \op or variants thereof
+As they relate to the real world, modeling them in terms of the \op{} or variants thereof
 will result in an input akin to ones described in \cref{subsec:02:euclidean},
 with the nodes having a location in space and the distance between them being at least roughly proportional to the Euclidean distance between them.
 
@@ -162,8 +162,8 @@ As such, if one wanted to solve these problems assuming the input to be Euclidea
 If one perused the test instances compiled by \citeauthor{vansteenwegen_orienteering_2011} \cite{vansteenwegen_orienteering_2011},
 one would find, that these are all Euclidean.
 
-So while these restrictions might not be that helpful when trying to solve the general \op, it is also unsurprising that this focus exists in the literature.
-However, this is not to say that this is the primary let alone the only reason why this is the case.
+So while these restrictions might pose problems when trying to solve the general \op{}, it is also unsurprising a focus on Euclidean problem instances exists in the literature.
+However, that is not to say that this is the primary let alone the only reason why this is the case.
 
 We will now introduce algorithms from the literature and discuss
 whether the requirements and heuristics originally described in their papers can be relaxed without sacrificing too much of the respective algorithm's functionality.

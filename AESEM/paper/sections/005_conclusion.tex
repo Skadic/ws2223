@@ -1,7 +1,7 @@
 \section{Conclusion}
 
 In conclusion, we have seen that the majority of the literature concerns itself with Euclidean input,
-and we set out to try and generalize existing approaches by \citeauthor{tsiligiridis_heuristic_1984} and \citeauthor{szwarc_novel_2022} to less restrictive inputs.
+and we set out to try and generalize existing approaches by \citeauthor{tsiligiridis_heuristic_1984} \cite{tsiligiridis_heuristic_1984} and \citeauthor{szwarc_novel_2022} \cite{szwarc_novel_2022} to less restrictive inputs.
 We have considered reasons as for why Euclidean inputs are almost ubiquitous in the literature.
 Real-world applications can most often be sensibly approximated by a Euclidean input (refer to \cref{subsec:02:reasons}).
 
@@ -9,7 +9,7 @@ Some solution approaches seem to have a fairly straightforward generalization to
 In our case, the S-Algorithm does not directly require the input to have any properties that are exclusively Euclidean.
 As such, the algorithm could be used on inputs that satisfy the triangle inequality without modification.
 
-However, other algorithms some require the removal of some of their heuristics (see \cref{subsec:04:algo}),
+However, other algorithms require the removal of some of their heuristics (see \cref{subsec:04:algo}),
 and do not seem to be trivially generalizable like the S-Algorithm.
 \citeauthor{szwarc_novel_2022}'s algorithm requires the omission of its center-of-gravity heuristic to be able to work on non-Euclidean inputs as it requires the nodes to have coordinates.
 In addition, the 2-opt method might be difficult to apply, since the concept of crossing edges can be difficult to formulate on a graph that for example only satisfies the triangle inequality.

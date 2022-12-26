@@ -1,12 +1,12 @@
 \subsection{Algorithm}
 \label{subsec:04:algo}
 
-\citeauthor{szwarc_novel_2022} applied the concepts explained in \cref{subsec:04:hs} to the \op. \cite{szwarc_novel_2022}
+\citeauthor{szwarc_novel_2022} applied the concepts explained in \cref{subsec:04:hs} to the \op{} \cite{szwarc_novel_2022}.
 
-The solution vectors in $HM$ are arrays that store the nodes visited by each path in the order in which they are visited.
+The solution vectors in \hm{} are arrays that store the nodes visited by each path in the order in which they are visited.
 %We will use the Euclidean graph in \cref{fig:04:graphexample} as an example.
 %For simplicity, we omit the bound $T_{max}$ in this example.
-A possible state of an $HM$ is depicted in \cref{fig:04:hm}.
+A possible state of an \hm{} is depicted in \cref{fig:04:hm}.
 
 \begin{figure}
 	\centering
@@ -55,26 +55,9 @@ A possible state of an $HM$ is depicted in \cref{fig:04:hm}.
 		\node[cross,orange] at (2,0) (aa) {};
 		\draw[orange] (2,0) circle (3pt);
 
-		\iffalse
-			\draw (1) -- (2);
-			\draw (1) -- (3);
-			\draw (1) -- (4);
-			\draw (1) -- (5);
-			\draw (1) -- (6);
-			\draw (2) -- (3);
-			\draw (2) -- (4);
-			\draw (2) -- (5);
-			\draw (2) -- (6);
-			\draw (3) -- (4);
-			\draw (3) -- (5);
-			\draw (3) -- (6);
-			\draw (4) -- (5);
-			\draw (4) -- (6);
-			\draw (5) -- (6);
-		\fi
 	\end{tikzpicture}
 	\caption{A Euclidean graph with a position and score for each node. The algorithm is building a new path. The red node is currently the last node of the path. The blue edges and nodes are considered by the algorithm to be inserted next.
-		The center of gravity is marked in orange. It is only coincidentally that it is in the center.}
+		The center of gravity is marked in orange. It is only coincidental that it is in the center of the graph.}
 	\label{fig:04:graphexample}
 \end{figure}
 
@@ -88,35 +71,34 @@ A possible state of an $HM$ is depicted in \cref{fig:04:hm}.
 				\node[draw=none] {$2$}; & \node {$v_1$}; & \node{$v_2$}; & \node[red]{$v_7$}; & \node[blue]{$v_3$}; & \node{$v_8$}; \\
 			};
 			\node[draw=none, above=0cm of 0] {$i$};
-			\node[draw=none, above=0cm of mat] {$HM$};
+			\node[draw=none, above=0cm of mat] {\hm{}};
 		\end{tikzpicture}%
 	}%
-	\caption{An example $HM$ with paths starting at node $v_1$ and ending at node $v_8$.}
+	\caption{An example \hm{} with paths starting at node $v_1$ and ending at node $v_8$.}
 	\label{fig:04:hm}
 \end{wrapfigure}
 
 This results in the solution vectors possibly not being the same size.
 This is not an issue, but it might raise the question of how values for a new harmony, that is a new path, are chosen.
 
-\subsubsection{Choosing the next Node}
+\subsubsection{Choosing the next node}
 
-Of course the path always starts at the start node, in the case of the example in \cref{fig:04:hm}, it is node $v_1$.
-If at some point in the algorithm, the path so far is $P$ (a list of nodes) which node should we pick next?
-As described in \cref{subsec:04:hs}, we have three possibilities.
+The path always begins at the start node. In the case of the example in \cref{fig:04:hm}, it is node $v_1$.
+If at some point in the algorithm, the path so far is $P$ (a list of nodes), as described in \cref{subsec:04:hs}, we have three possibilities to pick the next node.
 
-\paragraph{Choosing from $HM$}
+\paragraph{Choosing from HM}
 
-We search for the occurrences of the currently visited node $c \in P$ in $HM$ and keep track of the nodes that appear \emph{after} $c$ in $HM$.
+We search for the occurrences of the currently visited node $c \in P$ in \hm{} and keep track of the nodes that appear \emph{after} $c$ in \hm{}.
 These nodes appearing after $c$ are inserted into a tentative list $L$ of candidates that could become the next node.
 From $L$ we need to remove all nodes that already appeared in $P$ and also remove all nodes that would not allow travelling to the end node due to violating $T_{max}$.
 We then assign each node in $L$ the objective function value of the harmony they come from and choose a node randomly using a weighted distribution based on the assigned values.
 
-It could be the case that $L$ is empty. The nodes previously in $L$ could have violated $T_{max}$ or $c$ did not appear in $HM$.
+It could be the case that $L$ is empty. The nodes previously in $L$ could have violated $T_{max}$ or $c$ did not appear in \hm{}.
 In this case, we insert all unvisited nodes that do not violate $T_{max}$ into $L$ and weigh a node $v \in L$ by the quotient of its score by the distance between $c$ and $v$, so: $\tfrac{s(v)}{t(c, v)}$.
 We then choose a node again with a weighted distribution based on these weights.
 
 In the example in \cref{fig:04:graphexample,fig:04:hm} we have $P = [v_1, v_2, v_7]$.
-We search for $v_7$ in $HM$ and find that it is followed by $v_3$, $v_4$ and $v_5$ respectively.
+We search for $v_7$ in \hm{} and find that it is followed by $v_3$, $v_4$ and $v_5$ respectively.
 So $L = \{v_3, v_4, v_5\}$. Their respective weights are $\tfrac{5}{2}, \tfrac{4}{\sqrt{10}}$ and $\tfrac{2}{\sqrt{2}}$.
 We now choose one of these nodes by weighing them by those weights.
 
@@ -144,9 +126,10 @@ Each node's weight is then defined as:
 	W_i := 0.7 \cdot Rs_i + 0.2 \cdot Rc_i + 0.1 \cdot Rp_i
 \end{equation*}
 
+The coefficients are also adopted from \citeauthor{szwarc_novel_2022} \cite{szwarc_novel_2022}.
+They prioritize a node's score while its closeness to the center of gravity and its distance from the last visited node have less of an impact.
 We then choose a node from $U$ with each node being weighted by its $W_i$.
 It should be noted that we prioritize \emph{lower} $W_i$.
-
 
 \begin{table}
 	\centering
@@ -172,20 +155,20 @@ To calculate the values for our example, we first calculate the center of gravit
 The values for the examples in \cref{fig:04:graphexample,fig:04:hm} are depicted in \cref{tab:04:ranks}.
 Using the ranks as weights, prioritizing lower weights, we choose one of the four nodes.
 
-\paragraph{Choosing a random Node}
+\paragraph{Choosing a random node}
 
 As the title suggests, we choose a random node from the ones which do not violate $T_{max}$.
 After repeated choices no other node except the end node can be chosen, we complete the new harmony $P$ by inserting the end node.
 
-\subsubsection{Improve Harmony}
+\subsubsection{Improving the Harmony}
 \label{subsubsec:04:createharmony}
 
-After calculating the path $P$ we calculate its objective function value and check whether it is better than the worst harmony stored in $HM$.
+After calculating the path $P$ we calculate its objective function value and check whether it is better than the worst harmony stored in \hm{}.
 If it is not better, the solution is discarded and a new iteration begins.
 If it \emph{is} better, we improve $P$ in four steps.
 
 \begin{enumerate}
-	\item We optimize the path using the \emph{2-opt} method which was first described by \citeauthor{croes_method_1958}. \cite{croes_method_1958}
+	\item We optimize the path using the \emph{2-opt} method which was first described by \citeauthor{croes_method_1958} \cite{croes_method_1958}.
 	      For each pair of edges $\{a,b\}, \{c, d\} \in E$ that are part of $P$ we check whether they cross each other.
 	      If so, we reorder the nodes in $P$ such that $\{a, c\}$ and $\{b, d\}$ replace the original two edges. Now they do not cross anymore. In practice, one would choose an upper limit of iterations, to limit the time this requires.
 	\item We remove the node $v_i \in P$ with the lowest value of the following quotient:
@@ -199,13 +182,13 @@ If it \emph{is} better, we improve $P$ in four steps.
 	\item If $P$ was improved in the previous step, apply 2-opt to it again.
 \end{enumerate}
 
-The resulting path $P$ now replaces the worst harmony in $HM$.
+The resulting path $P$ now replaces the worst harmony in \hm{}.
 
 \subsubsection{Avoiding premature Convergence}
 
-It might be the case that after some amount of iterations $HM$ contains only very similar paths.
+It might be the case that after some amount of iterations \hm{} contains only very similar paths.
 If that is the case, then each iteration of the algorithm might not improve the best solution, since there is only little variety to pull from when creating a new harmony.
-Therefore, we should avoid having the entirety of $HM$ prematurely converging to a possibly only local optimum.
-To remedy this, if some $R \in \mathbb{N}$ iterations passed without the worst harmony in $HM$ being replaced,
-all harmonies in $HM$ except the best one are discarded and filled with random paths again.
-This avoids the algorithm stagnating because of all paths in $HM$ being too similar to one another.
+Therefore, we should avoid having the entirety of \hm{} prematurely converging to a possibly only local optimum.
+To remedy this, if some $R \in \mathbb{N}$ iterations passed without the worst harmony in \hm{} being replaced,
+all harmonies in \hm{} except the best one are discarded and filled with random paths again.
+This avoids the algorithm stagnating because of all paths in \hm{} being too similar to one another.

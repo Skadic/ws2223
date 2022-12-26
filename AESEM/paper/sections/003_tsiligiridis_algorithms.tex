@@ -1,14 +1,14 @@
 \section{Tsiligiridis' Algorithms}
 \label{sec:03:tsiligiridis}
 
-One of the earliest solution approaches for the \op is due to \citeauthor{tsiligiridis_heuristic_1984} in his 1984 paper on the topic. \cite{tsiligiridis_heuristic_1984}
+One of the earliest solution approaches for the \op{} was proposed by \citeauthor{tsiligiridis_heuristic_1984} in his 1984 paper on the topic \cite{tsiligiridis_heuristic_1984}.
 He introduced two algorithms which generate a path and an algorithm that tries to improve an already existing path.
 
-Only one of the two path-generating algorithms presented by \citeauthor{tsiligiridis_heuristic_1984} will be introduced here:
+Only one of the two path-generating algorithms will be introduced here:
 We will present the \emph{S-Algorithm} (see \cref{subsec:03:salgo}), since the \emph{D-Algorithm} requires a division of the plane into sections, which seems to have no trivial generalization to non-Euclidean inputs.
-The route-improving \emph{R-I-Algorithm} will also be introduced. (see \cref{subsec:03:rialgo})
-In his original paper, the input is assumed to be Euclidean.
-We will discuss whether these algorithms can work on non-Euclidean inputs.
+The route-improving \emph{R-I-Algorithm} will also be introduced (see \cref{subsec:03:rialgo}).
+In his original paper, the input is assumed to be Euclidean but
+we will discuss whether these algorithms can work on non-Euclidean inputs.
 
 \input{sections/003_01_s_algo.tex}
 %\input{sections/003_02_d_algo.tex}
