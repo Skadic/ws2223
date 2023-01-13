@@ -131,3 +131,31 @@
 		\end{column}
 	\end{columns}
 \end{frame}
+
+
+\begin{frame}{What is the issue?}
+
+	\note<1>[item]{Unsurprisingly, OP is NP-Hard}
+	\note<2>[item]{Many solutions in the literature require Euclidean metric \begin{itemize}
+			\item Nodes are points in euclidean plane
+			\item Distances are euclidean distance
+			\item Most assume at least some amount of restrictions
+		\end{itemize}}
+	\note<2>[item]{Not good if trying to solve general instances}
+	\note<3>[item]{Can we generalize algorithms so the need less restrictions?}
+
+	\begin{columns}
+		\begin{column}{0.48\textwidth}
+			\begin{itemize}
+				\item<1-> The OP is NP-Hard \cite{golden_orienteering_1987}
+				\item<2-> Most solutions assume a Euclidean metric \cite{vansteenwegen_orienteering_2011}
+				\item<3-> Can we generalize algorithms such that they require less assumptions?
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\includegraphics<1>[width=0.7\textwidth]{res/kaisya_woman_bad.png}
+			\includegraphics<2>[width=0.7\textwidth]{res/kaisya_komaru_woman.png}
+			\includegraphics<3>[width=0.7\textwidth]{res/kaisya_woman.png}
+		\end{column}
+	\end{columns}
+\end{frame}
