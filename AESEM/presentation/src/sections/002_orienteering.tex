@@ -1,0 +1,169 @@
+\section{The Orienteering Problem}
+
+\begin{frame}{The Orienteering Problem}
+
+	\note<1>[item]{
+		Proper definition of the OP \begin{itemize}
+			\item Start with an undirected graph
+			\item Cost function $t$ for the edges \begin{itemize}
+				      \item Also \enquote{distance}, \enquote{travel time}, \enquote{weight}
+			      \end{itemize}
+			\item Profit function $s$ for the nodes \begin{itemize}
+				      \item Also \enquote{score}
+			      \end{itemize}
+			\item Maximum cost $T_{max}$
+		\end{itemize}
+	}
+	\note<2>[item]{
+		Orienteering Problem \begin{itemize}
+			\item Want a path from $v_1$ to $v_n$ \begin{itemize}
+				      \item Need not be fixed but often are
+				      \item Named like this for convenience
+			      \end{itemize}
+			\item Path should maximize the total profit...
+			\item ...while respecting the cost limit $T_{max}$
+		\end{itemize}
+	}
+	\note<2>[item]{Questions?}
+
+	\begin{definition}[Orienteering Problem \cite{vansteenwegen_orienteering_2011}]
+		Let $G=(V = \{v_1, \dots, v_n\}, E)$ be an undirected graph with a cost function $t: E \rightarrow \mathbb{R}_+$
+		and a profit function $s: V \rightarrow \mathbb{R}$.
+		Also, let $T_{max} \in \mathbb{R}_+$ be a cost limit.
+
+		\only<2->{
+		The \oplong{} aims at finding a path $P = [p_1, \dots, p_k], p_i \in V$ with $p_1 = v_1$ and ending at $p_k = v_n$
+		which maximizes the total profit $S(P) := \sum_{p_i \in P} s(p_i)$ while respecting the cost limit, that is
+		\begin{equation*}
+			T(P) := \sum_{i = 1}^{k-1} t(v_i, v_{i+1}) \leq T_{max}
+		\end{equation*}
+		}
+	\end{definition}
+
+\end{frame}
+
+\begin{frame}{Example}
+
+	\note<1>[item]{
+		Example OP instance \begin{itemize}
+			\item $T_{max} = 6$
+			\item Edges between all nodes (omitted for clarity)
+			\item Horizontal/Vertical distance between neighboring nodes: 1
+			\item Diagonal movement: $\sqrt 2 \approx 1.4$
+		\end{itemize}}
+	\note<1>[item]{Ask audience: What is the optimal path?}
+	\note<2>[item]{Best path as far as I can see}
+
+	\centering
+	\begin{columns}
+		\begin{column}{0.48\textwidth}
+			\begin{itemize}
+				\item<1-> Grid spacing of $1$
+				\item<1-> $T_{max} = 6$
+				\item<2> $T(P) = 4 + \sqrt 2 < 6$
+				\item<2> $S(P) = 28$
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.48\textwidth}
+			\begin{tikzpicture}[every node/.style={draw,shape=circle,minimum size=7mm}]
+				\node (origin) at (0,0) {O};
+				\node (1) at (-2,0) {10};
+				\node (2) at (-2,2) {3};
+				\node (3) at (0,2) {6};
+				\node (4) at (2,0) {4};
+				\node (5) at (0,-2) {5};
+				\node (6) at (2,-2) {9};
+				\node (7) at (2,2) {1};
+				\node (end) at (-2,-2) {E};
+
+				\draw<2>[->] (origin) -- (4);
+				\draw<2>[->] (4) -- (6);
+				\draw<2>[->] (6) -- (5);
+				\draw<2>[->] (5) -- (1);
+				\draw<2>[->] (1) -- (end);
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Complete Graphs}
+
+	\note<1>[item]{
+		Getting into the problem \begin{itemize}
+			\item Restrictions on allowed input graphs
+			\item Introduce common ones in order of strictness
+			\item After: introduce algorithms and try to reduce the restrictions they require
+		\end{itemize}
+	}
+	\note<2->[item]{First: Complete Graph}
+	\note<2->[item]{
+		Probably known to everyone \begin{itemize}
+			\item But for completeness' sake
+		\end{itemize}
+	}
+	\note<3->[item]{
+		Almost unanimous
+	}
+	\note<4->[item]{
+		Simple to transform any graph into complete graph. Insert missing edges with weight \begin{itemize}
+			\item Weight of the shortest path between nodes
+			\item $\infty$ if the missing edges should not be taken \begin{itemize}
+				      \item Might not work for all algorithms though (example later)
+			      \end{itemize}
+		\end{itemize}
+	}
+
+	\only<2->{
+		\begin{definition}[Complete Graphs]
+			A graph $G = (V, E)$ is \emph{complete} if for any two nodes $v_i \neq v_j \in V$ there exists a corresponding edge $\{v_i, v_j\} \in E$.
+		\end{definition}
+	}
+
+	\begin{itemize}
+		\item<3-> Almost unanimous in the literature \cite{vansteenwegen_orienteering_2011,laporte_selective_1990,santini_hazardous_2022,szwarc_novel_2022}
+		\item<4-> Simple to transform any graph into a complete graph \begin{itemize}
+			\item Might be computationally expensive on large inputs
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Triangle Inequality}
+	\note<1->[item]{
+		First actual restriction \begin{itemize}
+			\item Similarly defined as in geometry
+		\end{itemize}
+	}
+	\note<2->[item]{
+		Any three nodes' weights satisfy the triangle inequality
+	}
+	\note<3->[item]{
+		$\Rightarrow$ The direct edge is always the shortest path between nodes. \begin{itemize}
+			\item No detour will ever be faster
+		\end{itemize}
+	}
+	\note<4->[item]{Less often explicitly stated in literature}
+	\note<4->[item]{
+		Usually implied as part of Euclidean Metric \begin{itemize}
+			\item Defined shortly
+		\end{itemize}
+	}
+
+	\only<2->{
+		\begin{definition}[Triangle Inequality \cite{black_triangle_2004}]
+			A graph $G = (V, E)$ satisfies the \emph{triangle inequation}
+			if any three nodes $u \neq v \neq w \in V$ statisfy the following inequality:
+			\begin{displaymath}
+				t(u,w) \leq t(u,v) + t(u,v)
+			\end{displaymath}
+		\end{definition}
+	}
+
+	\begin{itemize}
+		\item<3->[$\Rightarrow$] The direct edge is always the shortest path between nodes.
+		\item<4-> Less often explicitly stated \cite{santini_hazardous_2022}
+		\item<4-> More often, implied by requiring a Euclidean metric
+	\end{itemize}
+
+\end{frame}
+
+% TODO What do we get out of this??
