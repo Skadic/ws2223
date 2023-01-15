@@ -150,7 +150,7 @@
 
 	\only<2->{
 		\begin{definition}[Triangle Inequality \cite{black_triangle_2004}]
-			A graph $G = (V, E)$ satisfies the \emph{triangle inequation}
+			A complete, weighted graph $G = (V, E)$ satisfies the \emph{triangle inequation}
 			if any three nodes $u \neq v \neq w \in V$ statisfy the following inequality:
 			\begin{displaymath}
 				t(u,w) \leq t(u,v) + t(u,v)
@@ -161,9 +161,122 @@
 	\begin{itemize}
 		\item<3->[$\Rightarrow$] The direct edge is always the shortest path between nodes.
 		\item<4-> Less often explicitly stated \cite{santini_hazardous_2022}
-		\item<4-> More often, implied by requiring a Euclidean metric
+		\item<4-> More often implied by requiring a Euclidean metric
 	\end{itemize}
-
 \end{frame}
 
-% TODO What do we get out of this??
+\begin{frame}{Triangle Inequality}
+
+	\note<1>[item]{What do we get out of this?}
+	\note<2>[item]{Many problems: better approximations on more restricted graphs}
+	\note<2>[item]{
+		Easier to reason about rest of graph \begin{itemize}
+			\item example following now
+		\end{itemize}
+	}
+	\note<3->[item]{Simple greedy algorithm}
+	\note<4->[item]{
+		We always want to pick a node per step \begin{itemize}
+			\item Navigating to that node and then to the end may not violate $T_{max}$
+			\item Maximize the ratio between score gained and distance traveled
+		\end{itemize}
+	}
+	\note<4->[item]{
+		If no such node, go to the end
+	}
+
+	\begin{itemize}
+		\item<2> Many problems have better approximations on such graphs \cite{black_triangle_2004}
+		\item<2> Easier to reason about the rest of the graph.
+		\item<3-> Simple greedy algorithm \begin{itemize}
+			\item<4-> Let $P = [p_1, \dots, p_k]$ is the current path
+			\item<4-> Always pick the node $v \in V \setminus P$ such that
+			\begin{equation*}
+				T(P \cup [v, v_n]) \leq T_{max}
+			\end{equation*}
+			and
+			\begin{equation*}
+				\frac{s(v)}{t(p_k, v)}
+			\end{equation*}
+			is maximized.
+		\end{itemize}
+		\item<4-> If no such node exists, go to the end node.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Example}
+
+	\note<4->{
+		Z.B. jetzt \begin{itemize}
+			\item Remaining capacity of around $2.35$.
+			\item To which node can we go (and then to the end) without volating $T_{max}$?
+			\item[$\Rightarrow$] Only the node $5$
+		\end{itemize}
+	}
+	\note<4->{
+		Technically we could travel to node $4$ instead without immediately violating $T_{max}$ \begin{itemize}
+			\item But travelling to the end then would violate it.
+			\item Since we know this: Triangle Inequality $\Rightarrow$ There is no shorter way
+			\item[$\Rightarrow$] Travelling to $4$ does not allow reaching the end
+		\end{itemize}
+	}
+	\note<4->{
+		Both algorithms presented today, rely on this fact
+	}
+
+	\centering
+	\begin{tikzpicture}[every node/.style={draw,shape=circle,minimum size=7mm}]
+		\node (origin) at (0,0) {O};
+		\node<1> (1) at (-2,0) {10};
+		\node<2-> (1) at (-2,0) {10};
+		\node (2) at (-2,2) {3};
+		\node (3) at (0,2) {6};
+		\node (4) at (2,0) {4};
+		\node (5) at (0,-2) {5};
+		\node (6) at (2,-2) {9};
+		\node (7) at (2,2) {1};
+		\node (end) at (-2,-2) {E};
+
+		\node[draw=none,right=2cm of 7] (b) {$T_{max} = 7$};
+		\node<1>[draw=none,right=2cm of 4] (a) {$T(P) = 0$};
+		\node<2>[draw=none,right=2cm of 4] (a) {$T(P) = 1$};
+		\node<3>[draw=none,right=2cm of 4] (a) {$T(P) \approx 2.41$};
+		\node<4>[draw=none,right=2cm of 4] (a) {$T(P) \approx 4.65$};
+		\node<5>[draw=none,right=2cm of 4] (a) {$T(P) \approx 5.65$};
+		\node<6>[draw=none,right=2cm of 4] (a) {$T(P) \approx 6.65$};
+
+		\draw<2->[->] (origin) -- node[draw=none,above] {$1$} (1);
+		\draw<3->[->] (1) -- node[draw=none,above left] {$\sqrt 2$} (3);
+		\draw<4->[->] (3) -- node[draw=none,above right] {$\sqrt 5$} (6);
+		\draw<5->[->] (6) -- node[draw=none,above] {$1$} (5);
+		\draw<6->[->] (5) -- node[draw=none,above] {$1$} (end);
+	\end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Euclidean Metric}
+	\note<1->{Definition like in geometry}
+	\note<1->{
+		Nodes are points in the euclidean plane \begin{itemize}
+			\item Edge weights are distances between them
+		\end{itemize}
+	}
+	\note<2->{
+		Note, that this entails completeness and the triangle inequality \begin{itemize}
+			\item[$\Rightarrow$] Entails the previous two restrictions
+		\end{itemize}
+	}
+	\note<2->{Commonly seen in the literature}
+
+	\begin{definition}
+		For every node $v_i \in V$, there are coordinates $(x_i,y_i)^\intercal \in \mathbb{R}^2$
+		and for each pair of nodes $v_i \neq v_j \in V$ the edge weights are defined as:
+		\begin{displaymath}
+			t(v_i,v_j) := \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}
+		\end{displaymath}
+	\end{definition}
+
+	\begin{itemize}
+		\item<2-> Entails the previous two restrictions
+    \item<2-> Very common in the literature \cite{geem_harmony_2005,golden_orienteering_1987,szwarc_novel_2022,tsiligiridis_heuristic_1984}
+	\end{itemize}
+\end{frame}

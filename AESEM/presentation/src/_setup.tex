@@ -1,3 +1,4 @@
+\documentclass[aspectratio=169,10pt]{beamer}
 \nonstopmode
 
 % Basic Packages
@@ -10,13 +11,13 @@
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \usepackage{amssymb}
-\usepackage{gensymb}
+%\usepackage{gensymb}
 %\newtheorem{definition}{Definition}
 %\newtheorem{theorem}{Theorem}
 
 % Beamer
-\usetheme[progressbar=frametitle]{metropolis}
-\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
+%\usetheme[progressbar=frametitle]{metropolis}
+%\newcommand{\themename}{\textbf{\textsc{metropolis}}\xspace}
 \setbeameroption{show notes on second screen}
 
 % Itemized notes please
@@ -40,17 +41,17 @@
 
 % Textstuff
 \usepackage{csquotes}
-\usepackage{url}
-\usepackage[normalem]{ulem}
-\usepackage{multirow}
-\usepackage{algorithm}
-\usepackage{algpseudocode}
-\usepackage{algorithmicx}
-\usepackage{lmodern}            % Provides the Latin Modern Font which offers more glyphs than the default Computer Modern
-\usepackage{hyperref}
-\usepackage[nameinlink]{cleveref}
-\crefname{figure}{figure}{figures}
-\crefname{equation}{equation}{equations}
+%\usepackage{url}
+%\usepackage[normalem]{ulem}
+%\usepackage{multirow}
+%\usepackage{algorithm}
+%\usepackage{algpseudocode}
+%\usepackage{algorithmicx}
+%\usepackage{lmodern}            % Provides the Latin Modern Font which offers more glyphs than the default Computer Modern
+%\usepackage{hyperref}
+%\usepackage[nameinlink]{cleveref}
+%\crefname{figure}{figure}{figures}
+%\crefname{equation}{equation}{equations}
 %\crefname{subfigure}{Abbildung}{Abbildung}
 %\crefname{table}{Tabelle}{Tabelle}
 %\crefname{listing}{Quelltext}{Quelltext}
@@ -62,15 +63,15 @@
 %\crefname{lemma}{Lemma}{Lemma}
 
 % Text Writing Stuff
-\usepackage{todonotes}
-\usepackage{xargs}
+%\usepackage{todonotes}
+%\usepackage{xargs}
 % https://tex.stackexchange.com/questions/9796/how-to-add-todo-notes
-\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
-\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
-\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
-\newcommandx{\missing}[2][1=]{\todo[linecolor=yellow!25,backgroundcolor=yellow!25,bordercolor=yellow,#1]{#2}}
-\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
-\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+%\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+%\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+%\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+%\newcommandx{\missing}[2][1=]{\todo[linecolor=yellow!25,backgroundcolor=yellow!25,bordercolor=yellow,#1]{#2}}
+%\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+%\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
 
 \newcommand{\tsplong}{\textsc{TravellingSalesmanProblem}}
 \newcommand{\tsp}{\textsc{TSP}}
@@ -82,22 +83,24 @@
 %\setlength{\parindent}{0pt}%
 
 % gfx
-\usepackage{pgfpages}
-\usepackage{svg}
+%\usepackage{pgfpages}
+%\usepackage{svg}
 \usepackage{graphicx}
-\usepackage{xcolor}
-\usepackage{color}
-\usepackage{wrapfig}
-\usepackage{subcaption}
-\usepackage{adjustbox}
+%\usepackage{xcolor}
+%\usepackage{color}
+%\usepackage{wrapfig}
+%\usepackage{subcaption}
+%\usepackage{adjustbox}
 
 % Tikz
 \usepackage{tikz}
-\usepackage{siunitx}
+%\usepackage{siunitx}
 \usetikzlibrary{positioning,calc,shapes,decorations,arrows.meta}
 
 % Bibliography
 \usepackage[maxcitenames=1]{biblatex}
 \addbibresource{Orienteering.bib}
 
-
+\title{Generalization of Algorithms for the Orienteering Problem}
+\author{Etienne Palanga}
+\date{\today}
