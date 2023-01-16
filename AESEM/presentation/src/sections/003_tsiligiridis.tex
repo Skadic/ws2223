@@ -1,0 +1,142 @@
+\section{Tsiligiridis' Algorithms}
+
+\begin{frame}{Tsiligiridis' Algorithms}
+
+	\note<1->{One of the first papers on the OP}
+	\note<2->{
+		Introduced two path-generating algorithms \begin{itemize}
+			\item Stochastic algorithm
+			\item Deterministic algorithm
+		\end{itemize}
+	}
+	\note<2->{
+		Introduced one path-improving algorithm \begin{itemize}
+			\item Route Improving algorithm
+		\end{itemize}
+	}
+	\note<3->{
+		In original paper: Input assumed to be euclidean \begin{itemize}
+			\item test instances used are also euclidean
+		\end{itemize}
+	}
+	\note<4->{Will discuss the S algorithm and RI algorithm}
+
+	\begin{itemize}
+		\item<1-> One of the first papers on the topic \cite{tsiligiridis_heuristic_1984}
+		\item<2-> Introduced two path-generating algorithms and one path-improving algorithm
+		\item<3-> In the original paper the input is assumed to be Euclidean
+		\item<4-> Will take a look at one algorithm of each category
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Stochastic Algorithm (S-Algorithm)}
+	\note<2->{
+		Instead of picking the locally \enquote{best} node \begin{itemize}
+			\item Weigh each available node by its desirability and pick one randomly
+		\end{itemize}
+	}
+	\note<3->{
+		We have some unfinished path and a constant $r$. \begin{itemize}
+			\item Desirability defined almost the same as before.
+			\item Measure for how valuable a node is estimated to be.
+		\end{itemize}
+	}
+	\note<4->{
+		We need another parameter $k$ \begin{itemize}
+			\item We always only consider the best $k$ nodes when choosing a next node
+		\end{itemize}
+	}
+
+	\begin{itemize}
+		\item<1-> Similar to the simple example algorithm we looked at before
+		\item<2-> Always pick a random node based on how \enquote{desirable} it is
+	\end{itemize}
+	\only<3->{
+		\begin{definition}[Desirability]
+			Let $P := [p_1, \dots, p_l]$ be an unfinished path and $r \in \mathbb{R}_+$ a constant.
+			If $A \subseteq V \setminus P$ is the set of available nodes, then
+			the \emph{desirability value} $D(v_i)$ for every $v_i \in A$ is
+
+			\begin{displaymath}
+				D(v_i) := \left(\displaystyle\frac{s(v_i)}{t(p_l, v_i)}\right)^r
+			\end{displaymath}
+		\end{definition}
+	}
+
+	\begin{itemize}
+		\item<4-> In each step consider the $k$ most desirable nodes for some $k \in \mathbb{N}$
+		\item<5-> If $A_k \subseteq A$ is the set of the $k$ most desirable nodes then the probability for a node $v_i \in A_k$ is:
+		\begin{displaymath}
+			\displaystyle\frac{D(v_i)}{\sum_{v \in A_k} D(v)}
+		\end{displaymath}
+	\end{itemize}
+
+\end{frame}
+
+\begin{frame}[label=current]{Example}
+
+	\centering
+	\begin{tikzpicture}
+		\node[draw,shape=circle,minimum size=7mm] (origin) at (0,0) {O};
+		% left
+		\node<3->[draw,shape=circle,minimum size=7mm] (1) at (-2,0) {10};
+		\node<1-2>[draw,red,shape=circle,minimum size=7mm] (1) at (-2,0) {10};
+    % top left		
+    \node[draw,shape=circle,minimum size=7mm] (2) at (-2,2) {3};
+    % top		
+    \node<2->[draw,shape=circle,minimum size=7mm] (3) at (0,2) {6};
+    \node<1>[draw,red,shape=circle,minimum size=7mm] (3) at (0,2) {6};
+    % right
+    \node<1,3->[draw,shape=circle,minimum size=7mm] (4) at (2,0) {4};
+    \node<2>[draw,red,shape=circle,minimum size=7mm] (4) at (2,0) {4};
+    % bottom
+    \node<1,3->[draw,shape=circle,minimum size=7mm] (5) at (0,-2) {5};
+    \node<2>[draw,red,shape=circle,minimum size=7mm] (5) at (0,-2) {5};
+    % bottom right
+    \node<2->[draw,shape=circle,minimum size=7mm] (6) at (2,-2) {9};
+    \node<1>[draw,red,shape=circle,minimum size=7mm] (6) at (2,-2) {9};
+    % top right
+    \node[draw,shape=circle,minimum size=7mm] (7) at (2,2) {1};
+    % bottom left
+    \node[draw,shape=circle,minimum size=7mm] (end) at (-2,-2) {E};
+
+
+		\node[right=2cm of 7] (b) {$T_{max} = 7$};
+		\node[below=1mm of b] (c) {$k = 3$};
+		\node[below=1mm of c] (d) {$r = 1$};
+
+    \node<1>[above left=0mm of 1] (1d) {$10$};
+		\node<1>[above left=0mm of 2] (2d) {$2.12$};
+		\node<1>[above left=0mm of 3] (3d) {$6$};
+		\node<1>[above left=0mm of 4] (4d) {$4$};
+		\node<1>[above left=0mm of 5] (5d) {$5$};
+		\node<1>[above left=0mm of 6] (6d) {$6.36$};
+		\node<1>[above left=0mm of 7] (7d) {$0.71$};
+
+    \node<2>[above left=0mm of 1] (1d) {$4.47$};
+		\node<2>[above left=0mm of 2] (2d) {$1.06$};
+		\node<2>[above left=0mm of 3] (3d) {$2.68$};
+		\node<2>[above left=0mm of 4] (4d) {$4$};
+		\node<2>[above left=0mm of 5] (5d) {$5$};
+		\node<2>[above left=0mm of 7] (7d) {$0.5$};
+
+    \node<3>[above left=0mm of 1] (1d) {$5$};
+		\node<3>[above left=0mm of 2] (2d) {$1.34$};
+		\node<3>[above left=0mm of 3] (3d) {$4.24$};
+		\node<3>[above left=0mm of 5] (5d) {$5$};
+		\node<3>[above left=0mm of 7] (7d) {$0.5$};
+
+		\node<1>[right=2cm of 4] (a) {$T(P) = 0$};
+		\node<2>[right=2cm of 4] (a) {$T(P) \approx 1.41$};
+		\node<3>[right=2cm of 4] (a) {$T(P) \approx 2.41$};
+		\node<4>[right=2cm of 4] (a) {$T(P) \approx 3.82$};
+		\node<5>[right=2cm of 4] (a) {$T(P) \approx 5.24$};
+		\node<6>[right=2cm of 4] (a) {$T(P) \approx 6.24$};
+
+		\draw<2->[->] (origin) -- node[above] {$\sqrt 2$} (6);
+		\draw<3->[->] (6) -- node[right] {$1$} (4);
+		\draw<4->[->] (4) -- (5);
+		\draw<5->[->] (5) -- node[above] {$\sqrt 2$} (1);
+		\draw<6->[->] (1) -- node[left] {$1$} (end);
+	\end{tikzpicture}
+\end{frame}

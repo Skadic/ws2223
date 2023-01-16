@@ -168,8 +168,8 @@
 \begin{frame}{Triangle Inequality}
 
 	\note<1>[item]{What do we get out of this?}
-	\note<2>[item]{Many problems: better approximations on more restricted graphs}
-	\note<2>[item]{
+	\note<2->[item]{Many problems: better approximations on more restricted graphs}
+	\note<2->[item]{
 		Easier to reason about rest of graph \begin{itemize}
 			\item example following now
 		\end{itemize}
@@ -186,8 +186,8 @@
 	}
 
 	\begin{itemize}
-		\item<2> Many problems have better approximations on such graphs \cite{black_triangle_2004}
-		\item<2> Easier to reason about the rest of the graph.
+		\item<2-> Many problems have better approximations on such graphs \cite{black_triangle_2004}
+		\item<2-> Easier to reason about the rest of the graph.
 		\item<3-> Simple greedy algorithm \begin{itemize}
 			\item<4-> Let $P = [p_1, \dots, p_k]$ is the current path
 			\item<4-> Always pick the node $v \in V \setminus P$ such that
@@ -200,6 +200,7 @@
 			\end{equation*}
 			is maximized.
 		\end{itemize}
+		\item<3-> Nodes fulfilling the former property are called \emph{available}
 		\item<4-> If no such node exists, go to the end node.
 	\end{itemize}
 \end{frame}
@@ -277,6 +278,6 @@
 
 	\begin{itemize}
 		\item<2-> Entails the previous two restrictions
-    \item<2-> Very common in the literature \cite{geem_harmony_2005,golden_orienteering_1987,szwarc_novel_2022,tsiligiridis_heuristic_1984}
+		\item<2-> Very common in the literature \cite{geem_harmony_2005,golden_orienteering_1987,szwarc_novel_2022,tsiligiridis_heuristic_1984}
 	\end{itemize}
 \end{frame}
