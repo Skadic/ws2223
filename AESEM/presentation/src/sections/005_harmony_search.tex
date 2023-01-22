@@ -1,6 +1,8 @@
 \section{Szwarc-Boryczka Algorithm}
 
-\begin{frame}[label=current]
+\subsection{Harmony Search}
+
+\begin{frame}
     \frametitle<2->{Harmony Search \cite{geem_optimal_2000,geem_state---art_2010,geem_harmony_2005}}
 
     \note<1>[item]{Let's go to a more recent algorithm}
@@ -25,6 +27,12 @@
     \note<5->[item]{
         At first kind of poorly coordinated \begin{itemize}
             \item Resulting harmonies might be sort of random
+        \end{itemize}
+    }
+    \note<6->[item]{
+        Try different things \begin{itemize}
+            \item Start to remember what works and what doesn't
+            \item[$\Rightarrow$] The longer this continues, the more pleasing the harmonies
         \end{itemize}
     }
 
@@ -66,7 +74,65 @@
             \draw<6->[->] (note1) -- node[above,sloped] {hears} (listener);
             \draw<6->[->] (note2) -- node[above,sloped] {hears} (listener);
             \draw<6->[->] (note3) -- node[above,sloped] {hears} (listener);
-            %\path[tap={hears}] (note1) to (listener);
         \end{tikzpicture}
     }
+\end{frame}
+
+\begin{frame}
+    \frametitle{Harmony Search \cite{geem_optimal_2000,geem_state---art_2010,geem_harmony_2005}}
+
+    \note<1->[item]{How does this apply to optimization?}
+    \note<1->[item]{Parameters or variables we have to play around with}
+    \note<2->[item]{Produce values}
+    \note<3->[item]{Evaluate a function $f$ \begin{itemize}
+            \item Save good solution vectors
+            \item Let new solution vectors be inspired by those that worked well
+        \end{itemize}}
+
+    \centering
+    \begin{tikzpicture}
+        \node (mus1) {$X$};
+        \node[below=1.5cm of mus1] (mus2) {$Y$};
+        \node[below=1.5cm of mus2] (mus3) {$Z$};
+
+        \visible<2->{
+            \node[right=20mm of mus1] (note1) {$5.23$};
+            \node[right=20mm of mus2] (note2) {$8.71$};
+            \node[right=20mm of mus3] (note3) {$2.54$};
+        }
+
+        \visible<3->{
+            \node[right=20mm of note2] (listener) {$f(x,y,z)$};
+        }
+
+        \draw<2->[->] (mus1) -- node[above] {produces} (note1);
+        \draw<2->[->] (mus2) -- node[above] {produces} (note2);
+        \draw<2->[->] (mus3) -- node[above] {produces} (note3);
+
+        \draw<3->[->] (note1) -- node[above,sloped] {} (listener);
+        \draw<3->[->] (note2) -- node[above,sloped] {} (listener);
+        \draw<3->[->] (note3) -- node[above,sloped] {} (listener);
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Harmony Search \cite{geem_optimal_2000,geem_state---art_2010,geem_harmony_2005}}
+
+    \note<1->{Initialization: \begin{itemize}
+            \item Generate a set of random solution vectors
+            \item Evaluate and sort them by value
+        \end{itemize}}
+    \note<2->[item]{Use saved vectors to generate new solution}
+    \note<3->[item]{If improvement: \begin{itemize}
+            \item Replace worst solution in our saved solutions
+        \end{itemize}}
+    \note<3->[item]{So in general: not that complicated \begin{itemize}
+            \item Exact technicalities omitted here
+        \end{itemize}}
+
+    \begin{enumerate}
+        \item<1-> Initally: Set of random solutions
+        \item<2-> Generate new solution vector using the available set of solutions
+        \item<3-> If improvement: Replace worst saved solution with new solution
+    \end{enumerate}
 \end{frame}

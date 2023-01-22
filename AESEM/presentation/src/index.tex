@@ -1,13 +1,14 @@
 % arara: lualatex: { synctex: yes, interaction: nonstopmode } 
 
 \frame{\titlepage}
-
 \include{sections/001_introduction}
-\include{sections/002_orienteering}
+\include{sections/002_orienteering_new}
 \include{sections/003_tsiligiridis_s_algo}
-\include{sections/005_harmony_search.tex}
+\include{sections/005_harmony_search}
+\include{sections/006_szwarc}
 
 \frame[allowframebreaks]{
-  \frametitle{Literature}
+  \nocite{mifune}
+  \frametitle{Sources}
 	\printbibliography[heading=none]
 }
