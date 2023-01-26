@@ -210,3 +210,48 @@
         \end{column}
     \end{columns}
 \end{frame}
+
+\begin{frame}
+    \frametitle{Generalization}
+
+    \note<1->[item]{
+        Navigation is the same as the S-Algorithm \begin{itemize}
+            \item Requires Triangle-Inequality to decide whether a node can be taken
+        \end{itemize}
+    }
+    \note<2->[item]{
+        Center of gravity heuristic requires euclidean graph \begin{itemize}
+            \item Weighted sum of \textbf{coordinates}
+        \end{itemize}
+    }
+    \note<2->[item]{
+        Other parts to the algorithm that are difficult outside of euclidean
+    }
+    \note<3->[item] {
+        We can try removing thes heuristics \begin{itemize}
+            \item Might worsen results
+            \item Would need to check experimentally
+        \end{itemize}
+    }
+
+    \begin{columns}
+        \begin{column}{0.48\textwidth}
+            \begin{itemize}
+                \item<1-> Navigation like S-Algorithm \begin{itemize}
+                    \item[$\Rightarrow$] Requires Triangle-Inequality
+                \end{itemize}
+                \item<2-> Center of gravity heuristic \begin{itemize}
+                    \item[$\Rightarrow$] \textcolor{red}{Requires Euclidean Graph}
+                \end{itemize}
+                \item<3-> Can remove heuristics \begin{itemize}
+                    \item Might need to accept worse results
+                \end{itemize}
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.48\textwidth}
+            \includegraphics<1,3>[width=0.7\textwidth]{res/kaisya_komaru_woman.png}
+            \includegraphics<2>[width=0.7\textwidth]{res/kaisya_woman_bad.png}
+        \end{column}
+    \end{columns}
+
+\end{frame}
