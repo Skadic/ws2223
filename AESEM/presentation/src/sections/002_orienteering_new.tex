@@ -2,25 +2,25 @@
 
 \begin{frame}{The Orienteering Problem}
 
-	\note<1->[item]{
+	\note[item]{
 		Proper definition of the OP \begin{itemize}
 			\item Start with an undirected graph
 		\end{itemize}
 	}
-	\note<2->[item] {
+	\note[item] {
 		Profit function $s$ for the nodes \begin{itemize}
 			\item Also called \enquote{score}
 		\end{itemize}
 	}
-	\note<3->[item]{
+	\note[item]{
 		Cost function $t$ for the edges \begin{itemize}
 			\item Also \enquote{distance}, \enquote{travel time}, \enquote{weight}
 		\end{itemize}
 	}
-	\note<4->[item]{
+	\note[item]{
 		Maximum cost $T_{max}$
 	}
-	\note<5->[item]{
+	\note[item]{
 		Orienteering Problem \begin{itemize}
 			\item Want a path from $v_1$ to $v_n$ \begin{itemize}
 				      \item Need not be fixed but often are
@@ -33,11 +33,11 @@
 
 	\begin{definition}[Orienteering Problem \cite{vansteenwegen_orienteering_2011}]
 		\begin{itemize}
-			\item<1-> Graph $G=(V = \{v_1, \dots, v_n\}, E)$
-			\item<2-> Score function $s: V \rightarrow \mathbb{R}$
-			\item<3-> Cost function $t: E \rightarrow \mathbb{R}_+$
-			\item<4-> Cost Limit $T_{max}$
-			\item<5->[$\Rightarrow$] Find path $P$ with maximal profit and cost less than $T_{max}$
+			\item Graph $G=(V = \{v_1, \dots, v_n\}, E)$
+			\item Score function $s: V \rightarrow \mathbb{R}_+$
+			\item Cost function $t: E \rightarrow \mathbb{R}_+$
+			\item Cost Limit $T_{max} \in \mathbb{R}_+$
+			\item [$\Rightarrow$] Find path $P$ with maximal profit and cost less than $T_{max}$
 		\end{itemize}
 	\end{definition}
 
@@ -102,10 +102,10 @@
 			\item But for completeness' sake
 		\end{itemize}
 	}
-	\note<3->[item]{
+	\note<2->[item]{
 		Almost unanimous
 	}
-	\note<4->[item]{
+	\note<2->[item]{
 		Simple to transform any graph into complete graph. Insert missing edges with weight \begin{itemize}
 			\item Weight of the shortest path between nodes
 			\item $\infty$ if the missing edges should not be taken \begin{itemize}
@@ -124,7 +124,7 @@
 				\end{definition}
 			}
 
-			\only<3->{ Almost unanimous in the literature \cite{vansteenwegen_orienteering_2011,laporte_selective_1990,santini_hazardous_2022,szwarc_novel_2022}}
+			\only<2->{ Almost unanimous in the literature \cite{vansteenwegen_orienteering_2011,laporte_selective_1990,santini_hazardous_2022,szwarc_novel_2022}}
 		\end{column}
 		\begin{column}{0.4\textwidth}
 			\only<2->{
@@ -141,7 +141,6 @@
 			}
 		\end{column}
 	\end{columns}
-
 \end{frame}
 
 \begin{frame}{Triangle Inequality}
@@ -158,12 +157,6 @@
 			\item No detour will ever be faster
 		\end{itemize}
 	}
-	\note<3->[item]{Less often explicitly stated in literature}
-	\note<3->[item]{
-		Usually implied as part of Euclidean Metric \begin{itemize}
-			\item Defined shortly
-		\end{itemize}
-	}
 
 	\only<1->{
 		\begin{definition}[Triangle Inequality \cite{black_triangle_2004}]
@@ -176,8 +169,6 @@
 
 	\begin{itemize}
 		\item<2->[$\Rightarrow$] No shorter path than the direct edge
-		\item<3-> Less often explicitly stated \cite{santini_hazardous_2022}
-		\item<3-> More often implied by requiring a Euclidean metric
 	\end{itemize}
 \end{frame}
 
